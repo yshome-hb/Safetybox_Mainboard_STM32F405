@@ -19,7 +19,7 @@ uint16_t useradd_setup(uint16_t input)
 	lcd_fb_line(1, 20, 191, 20, 1);
 	lcd_fb_fbmp(4, 4, BMP_MENU_BACK_12X12, 0, 1);
 	lcd_fb_puthzs(80, 2, "ÃÌº””√ªß", 0, 1);
-	lcd_fb_puthzs(20, 4, "1/1", 0, 1);	
+	lcd_fb_puthzs(20, 2, "1/1", 0, 1);	
 
 	user_show_background(0);
 	lcd_fb_puts(15, 47, ASCII_10X12, "1", 0, 1);		

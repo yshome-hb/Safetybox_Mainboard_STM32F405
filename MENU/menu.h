@@ -7,12 +7,14 @@
 
 typedef uint16_t (*Process_f)(void *param, uint16_t input);
 typedef uint16_t (*Setup_f)(uint16_t input);
+typedef void (*Idle_f)(void);
 
 
 struct Menu_Item_t
 {
 	uint8_t index;
 	Setup_f setup;
+	Idle_f idle;
 	Process_f int_process;
 	Process_f key_process;
 	Process_f password_process;    
@@ -20,6 +22,8 @@ struct Menu_Item_t
 	Process_f vein_process;
 	Process_f face_process;
 	Process_f rtc_process;
+	Process_f wifi_process;	
+	Process_f nbiot_process;		
     struct Menu_Item_t *pub_menu;
     struct Menu_Item_t *sub_menu[SUB_MENU_MAX];
     struct Menu_Item_t *next_menu;
@@ -44,7 +48,11 @@ extern struct Menu_Item_t useradd_vein_item;
 extern struct Menu_Item_t useradd_face_item;
 extern struct Menu_Item_t useradd_result_item;
 extern struct Menu_Item_t userdel_item;
+extern struct Menu_Item_t systeminfo_item;
 extern struct Menu_Item_t systemconfig_item;
+extern struct Menu_Item_t networkconfig_item;
+extern struct Menu_Item_t wifiinfo_item;
+extern struct Menu_Item_t wificonfig_item;
 
 
 uint16_t common_show_popup(const char *pop);

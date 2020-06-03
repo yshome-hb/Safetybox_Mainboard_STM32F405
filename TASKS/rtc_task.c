@@ -7,6 +7,7 @@
 #include "message.h"
 #include "activity_task.h"
 #include "rtc_task.h"
+#include "face_task.h"
 
 
 #define BATTERY_CHANNEL ADC_Channel_14

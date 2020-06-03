@@ -11,6 +11,7 @@
 #include "identify_task.h"
 #include "io_task.h"
 #include "rtc_task.h"
+#include "wifi_task.h"
 
 
 #define START_TASK_PRIO		3
@@ -45,7 +46,7 @@ void hw_system_init()
 	hw_iic1_init();
   	io_output_init();
   	io_output_set(OUTPUT_POWER_3V, 1);
-  	io_output_set(OUTPUT_POWER_5V, 1);    
+  	io_output_set(OUTPUT_POWER_5V, 1);
 	device_info_init();
 	adc1_init();
 	rtc_init();
@@ -70,6 +71,10 @@ void start_task(void *pvParameters)
 	activity_task_create(&start_menu, activity_hook);
 
 	io_task_create(NULL);
+
+	wifi_task_create(NULL);
+
+	wifi_task_create(NULL);
 
 	taskEXIT_CRITICAL();
 

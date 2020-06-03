@@ -275,7 +275,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x100000</Size>
+                <Size>0x20000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\input_output;..\FWLIB\inc;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\HARDWARE\lcd;..\FONTS;..\HARDWARE\fpc;..\SYSTEM;..\TASKS;..\HARDWARE\veinfinger;..\MENU;..\SYSTEM\spi;..\SYSTEM\gpio;..\SYSTEM\stmflash;..\HARDWARE\device_info;..\SYSTEM\timer;..\CJSON;..\HARDWARE\sipeed_mf1;..\SYSTEM\rtc;..\SYSTEM\iic;..\HARDWARE\sht2x;..\SYSTEM\adc;..\SYSTEM\rtc</IncludePath>
+              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\input_output;..\FWLIB\inc;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\HARDWARE\lcd;..\FONTS;..\HARDWARE\fpc;..\SYSTEM;..\TASKS;..\HARDWARE\veinfinger;..\MENU;..\SYSTEM\spi;..\SYSTEM\gpio;..\SYSTEM\stmflash;..\HARDWARE\device_info;..\SYSTEM\timer;..\CJSON;..\HARDWARE\sipeed_mf1;..\SYSTEM\rtc;..\SYSTEM\iic;..\HARDWARE\sht2x;..\SYSTEM\adc;..\SYSTEM\rtc;..\HARDWARE\esp8266_at;..\HARDWARE\bc35_at</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -426,6 +426,16 @@
               <FileName>sht2x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\sht2x\sht2x.c</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_at.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\esp8266_at\esp8266_at.c</FilePath>
+            </File>
+            <File>
+              <FileName>bc35_at.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\bc35_at\bc35_at.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -672,6 +682,16 @@
               <FileType>1</FileType>
               <FilePath>..\TASKS\rtc_task.c</FilePath>
             </File>
+            <File>
+              <FileName>wifi_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TASKS\wifi_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>nbiot_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TASKS\nbiot_task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -741,6 +761,11 @@
               <FileName>systemconfig_menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MENU\systemconfig_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MENU\wifi_menu.c</FilePath>
             </File>
           </Files>
         </Group>

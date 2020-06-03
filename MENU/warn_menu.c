@@ -61,7 +61,7 @@ uint16_t warn_key_process(void *param, uint16_t input)
 uint16_t warn_setup(uint16_t input)
 {
 	common_setup("±¨¾¯²ßÂÔ", "ÓïÒô", "À®°È", "ÍÆËÍ", NULL);
-	lcd_fb_puthzs(20, 4, "1/1", 0, 1);
+	lcd_fb_puthzs(20, 2, "1/1", 0, 1);
 	
 	return 0;
 }

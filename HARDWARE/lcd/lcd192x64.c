@@ -745,7 +745,7 @@ void lcd_fb_puthzs(int32_t x, int32_t y, const char *str, uint8_t bg, uint8_t fg
     }
 		else if(c1 <= 0x80)
 		{
-			lcd_fb_putc(mx, my, ASCII_10X12, c1, bg, fg);
+			lcd_fb_putc(mx, my+3, ASCII_10X12, c1, bg, fg);
 			mx += 10;	
 		}
 		else if(c1 > 0xA1 && c2 > 0xA1)

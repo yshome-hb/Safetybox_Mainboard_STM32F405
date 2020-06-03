@@ -11,10 +11,39 @@
 #include "vfinger_task.h"
 #include "face_task.h"
 #include "rtc_task.h"
+#include "wifi_task.h"
 #include "menu.h"
 
 
 static char m_password[9] = {0};
+
+
+static void show_wifi_rssi(int32_t r, uint8_t force)
+{
+	static int32_t wrssi = 0;
+
+	if(r == wrssi && force == 0)
+		return;
+
+	wrssi = r;
+
+	if(wrssi < -99)
+	{
+		lcd_fb_fbmp(153, 4, BMP_MAIN_WIFI0_13X13, 0, 1);
+	}
+	else if(wrssi < -80)
+	{
+		lcd_fb_fbmp(153, 4, BMP_MAIN_WIFI1_13X13, 0, 1);
+	}
+	else if(wrssi < -50)
+	{
+		lcd_fb_fbmp(153, 4, BMP_MAIN_WIFI2_13X13, 0, 1);
+	}
+	else
+	{
+		lcd_fb_fbmp(153, 4, BMP_MAIN_WIFI3_13X13, 0, 1);
+	}
+}
 
 
 uint16_t main_int_process(void *param, uint16_t input)
@@ -53,7 +82,6 @@ uint16_t main_key_process(void *param, uint16_t input)
 	uint8_t len = strlen(m_password);
 	Msg_Value_t mksend_msg = {0};		
 	Msg_Identify_t send_msg_id = {0};
-	uint16_t temp = 0;
 	
 	if(key_cmd != 0xA5)
 		return 0;
@@ -98,12 +126,6 @@ uint16_t main_key_process(void *param, uint16_t input)
 		if(len == 0)
 			admin_cnt++; 
 	}	
-
-	temp = rtc_get_temperature();
-	// lcd_fb_puts(135, 6, ASCII_5X8, ".", 0, 1);
-	// lcd_fb_puts(145, 6, ASCII_5X8, "C", 0, 1);
-	lcd_fb_putn((temp >= 100) ? 125 : 130, 6, ASCII_5X8, temp/10, 0, 1);	
-	lcd_fb_putn(140, 6, ASCII_5X8, temp%10, 0, 1);	
 
 	memset(m_password_show, ' ', 8);
 	memset(m_password_show, '*', strlen(m_password));
@@ -322,6 +344,24 @@ uint16_t main_rtc_process(void *param, uint16_t input)
 }
 
 
+uint16_t main_wifi_process(void *param, uint16_t input)
+{	
+	uint8_t cmd = input>>8;
+	uint8_t val = input&0xFF;
+
+	if(cmd == WIFI_RETURN_SUCCESS)
+	{
+		int len = 0;
+		char *data = wifi_recv_tcpdata(&len);
+		
+		if(len > 0)
+			printf(data);
+	}
+	
+	return 0;
+}
+
+
 uint16_t main_setup(uint16_t input)
 {
 	uint32_t m_or_mask = device_get_or_mask();
@@ -388,16 +428,12 @@ uint16_t main_setup(uint16_t input)
 	lcd_fb_rectangle(171, 11, 172, 16, 1, 1);	
 	lcd_fb_rectangle(168, 14, 169, 16, 1, 1);
 
-	lcd_fb_fbmp(153, 4, BMP_MAIN_WIFI_13X13, 0, 1);
+	show_wifi_rssi(-999, 1);
 
 	lcd_fb_puts(135, 6, ASCII_5X8, ".", 0, 1);
 	lcd_fb_puts(145, 6, ASCII_5X8, "C", 0, 1);
 	lcd_fb_putn(125, 6, ASCII_5X8, 27, 0, 1);	
-	lcd_fb_putn(140, 6, ASCII_5X8, 5, 0, 1);	
-		
-//	uint16_t temp = rtc_get_temperature();
-//	lcd_fb_putn(146, 5, ASCII_10X12, temp/10, 0, 1);	
-//	lcd_fb_putn(170, 5, ASCII_10X12, temp%10, 0, 1);	
+	lcd_fb_putn(140, 6, ASCII_5X8, 5, 0, 1);		
 
 	for(int j = 0; j < 8; j++)
 	{
@@ -413,9 +449,20 @@ uint16_t main_setup(uint16_t input)
 }
 
 
+void main_idle(void)
+{
+	uint16_t temp = 0;
+	temp = rtc_get_temperature();
+	lcd_fb_putn((temp >= 100) ? 125 : 130, 6, ASCII_5X8, temp/10, 0, 1);	
+	lcd_fb_putn(140, 6, ASCII_5X8, temp%10, 0, 1);	
+	show_wifi_rssi(wifi_get_rssi(), 0);
+
+}
+
 struct Menu_Item_t main_item = {
 	.index = 0,
 	.setup = main_setup,
+	.idle = main_idle,
 	.int_process = main_int_process,
 	.key_process = main_key_process,
 	.password_process = main_password_process,
@@ -423,6 +470,7 @@ struct Menu_Item_t main_item = {
 	.vein_process = main_vein_process,
 	.face_process = main_face_process,
 	.rtc_process = main_rtc_process,
+	.wifi_process = main_wifi_process,
 	.sub_menu[0] = &unlock_item,
 	.sub_menu[1] = &manage1_item,
 };

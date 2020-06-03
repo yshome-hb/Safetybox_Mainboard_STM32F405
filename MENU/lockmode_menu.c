@@ -134,7 +134,7 @@ uint16_t lockmode_setup(uint16_t input)
 	lm_and_mask = device_get_and_mask();
 
 	common_setup("开锁模式", "密码", "指纹", "指静脉", "人脸");
-	lcd_fb_puthzs(20, 4, "1/1", 0, 1);
+	lcd_fb_puthzs(20, 2, "1/1", 0, 1);
 
 	if(lm_and_mask & ID_PWD_BIT)
 	{

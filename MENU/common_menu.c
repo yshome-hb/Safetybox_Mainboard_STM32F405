@@ -119,25 +119,25 @@ uint16_t common_setup(const char *title,
 	
 	if(option1 != NULL) 
 	{
-		lcd_fb_puthzs(3, 26, "1", 0, 1);	
+		lcd_fb_puthzs(3, 23, "1", 0, 1);	
 		lcd_fb_puthzs(15, 23, option1, 0, 1);
 	}
 
 	if(option2 != NULL) 
 	{
-		lcd_fb_puthzs(3, 47, "2", 0, 1);
+		lcd_fb_puthzs(3, 44, "2", 0, 1);
 		lcd_fb_puthzs(15, 44, option2, 0, 1);
 	}
 
 	if(option3 != NULL) 
 	{
-		lcd_fb_puthzs(99, 26, "3", 0, 1);	
+		lcd_fb_puthzs(99, 23, "3", 0, 1);	
 		lcd_fb_puthzs(111, 23, option3, 0, 1);
 	}
 
 	if(option4 != NULL) 
 	{
-		lcd_fb_puthzs(99, 47, "4", 0, 1);
+		lcd_fb_puthzs(99, 44, "4", 0, 1);
 		lcd_fb_puthzs(111, 44, option4, 0, 1);
 	}
 

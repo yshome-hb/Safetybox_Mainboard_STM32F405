@@ -88,7 +88,7 @@ void acitivy_task(void *pvParameters)
 
 	while(1)
 	{
-		if(xQueueReceive(activity_queue, &activity_msg, portMAX_DELAY) == pdTRUE)
+		if(xQueueReceive(activity_queue, &activity_msg, 3000) == pdTRUE)
 		{
 			ret = 0;
 			if(acvitiy_item != NULL)
@@ -144,7 +144,21 @@ void acitivy_task(void *pvParameters)
 						{
 							ret = acvitiy_item->rtc_process(acvitiy_item, activity_msg.value.s_val);	
 						}						 
-						break;					
+						break;		
+
+					case MSG_CMD_WIFI:
+						if(acvitiy_item->wifi_process != NULL)
+						{
+							ret = acvitiy_item->wifi_process(acvitiy_item, activity_msg.value.s_val);	
+						}						 
+						break;
+
+					case MSG_CMD_NBIOT:
+						if(acvitiy_item->nbiot_process != NULL)
+						{
+							ret = acvitiy_item->nbiot_process(acvitiy_item, activity_msg.value.s_val);	
+						}						 
+						break;			
 						
 					case MSG_CMD_SUB:
 						if(acvitiy_item->sub_menu[acvitiy_item->index] != NULL)
@@ -189,9 +203,17 @@ void acitivy_task(void *pvParameters)
 				activity_update();
 			}
 
-			lcd_drv_update();
-			vTaskDelay(50);
 		}
+		else
+		{
+			if(acvitiy_item->idle != NULL)
+			{
+				acvitiy_item->idle();	
+			}			
+		}
+		
+		lcd_drv_update();
+		vTaskDelay(50);
 	}
 }   
 
