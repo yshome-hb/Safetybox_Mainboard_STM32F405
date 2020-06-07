@@ -8,12 +8,6 @@
 
 #define FLASH_ADDR_DEVICE_INFO   (ADDR_FLASH_SECTOR_11)
 
-#define DEFAULT_ADMIN_NAME			"admin"
-#define DEFAULT_ADMIN_PASSWORD		"43218765"
-
-#define VERSION_MAJOR		1
-#define VERSION_JUNIOR	1
-
 
 enum id_bit_e
 {
@@ -22,6 +16,23 @@ enum id_bit_e
   ID_POS_VEIN,
   ID_POS_FACE,
   ID_POS_MAX,
+};
+
+
+enum network_access_e
+{
+	OFF_LINE = 0,	
+	WIFI_ACCESS,
+  NBIOT_ACCESS,
+  NETWORK_ACCESS_MAX,
+};
+
+
+enum warn_mode_e
+{
+	WARN_BEEP = (0x1<<0),	
+	WARN_VOICE = (0x01<<1),
+  WARN_PUSH = (0x01<<2),
 };
 
 
@@ -41,6 +52,11 @@ typedef struct
 	uint32_t mask2;
 	char adminname[12];
 	char password[12];
+  uint16_t warn_mode;
+  uint16_t network_type;
+  uint32_t network_tick;
+  uint32_t reverse1;
+  uint32_t reverse2;
   uint32_t num;
 }Admin_Info_t;
 
@@ -76,6 +92,10 @@ void device_set_or_mask(uint32_t mask);
 void device_set_and_mask(uint32_t mask);
 uint32_t device_get_or_mask(void);
 uint32_t device_get_and_mask(void);
+void device_set_networktype(uint16_t type);
+uint16_t device_get_networktype(void);
+void device_set_warnmode(uint16_t mode);
+uint16_t device_get_warnmode(void);
 
 
 #endif

@@ -203,6 +203,7 @@ uint16_t unlock_setup(uint16_t input)
 	fpc_identify_enable(0);
 	face_identify_enable(0);
 	rtc_cnt_enable(0, RTC_FLAG_FACE);
+	rtc_timeout_stop();
 		
 	return 0;
 }

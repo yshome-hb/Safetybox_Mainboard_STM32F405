@@ -29,7 +29,7 @@ int32_t wifi_get_rssi(void);
 char* wifi_get_ssid(void);
 char* wifi_get_ip(void);
 void wifi_smartconfig_enable(uint8_t on);
-void wifi_send_tcpdata(char *ip, int port, const char *data, int len, uint16_t recv_time);
+void wifi_send_tcpdata(char *ip, uint16_t port, const char *data, int len, uint16_t recv_time);
 char* wifi_recv_tcpdata(int *len);
 int32_t wifi_send_msg(const void *msg, uint32_t timeout);
 void wifi_task_create(void *pvParameters);

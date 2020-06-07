@@ -1,6 +1,7 @@
 #include "string.h"
 #include "lcd192x64.h"
 #include "input_output.h"
+#include "device_config.h"
 #include "device_info.h"
 #include "delay.h"
 #include "message.h"
@@ -12,10 +13,12 @@
 #include "face_task.h"
 #include "rtc_task.h"
 #include "wifi_task.h"
+#include "nbiot_task.h"
 #include "menu.h"
 
 
 static char m_password[9] = {0};
+static uint8_t lock_cnt = 0;
 
 
 static void show_wifi_rssi(int32_t r, uint8_t force)
@@ -43,6 +46,55 @@ static void show_wifi_rssi(int32_t r, uint8_t force)
 	{
 		lcd_fb_fbmp(153, 4, BMP_MAIN_WIFI3_13X13, 0, 1);
 	}
+}
+
+
+static void show_nbiot_rssi(int32_t r, uint8_t force)
+{
+	static int32_t nbrssi = 0;
+
+	if(r == nbrssi && force == 0)
+		return;
+
+	nbrssi = r;
+
+	lcd_fb_rectangle(166, 3, 179, 16, 0, 1);
+	if(nbrssi < 9)
+	{
+		lcd_fb_rectangle(166, 14, 167, 16, 1, 1);
+	}
+	else if(nbrssi < 17)
+	{
+		lcd_fb_rectangle(166, 14, 167, 16, 1, 1);
+		lcd_fb_rectangle(169, 11, 170, 16, 1, 1);
+	}
+	else if(nbrssi < 25)
+	{
+		lcd_fb_rectangle(166, 14, 167, 16, 1, 1);
+		lcd_fb_rectangle(169, 11, 170, 16, 1, 1);
+		lcd_fb_rectangle(172, 8, 173, 16, 1, 1);
+	}
+	else if(nbrssi < 31)
+	{
+		lcd_fb_rectangle(166, 14, 167, 16, 1, 1);
+		lcd_fb_rectangle(169, 11, 170, 16, 1, 1);
+		lcd_fb_rectangle(172, 8, 173, 16, 1, 1);
+		lcd_fb_rectangle(175, 5, 176, 16, 1, 1);
+	}	
+	else
+	{
+		lcd_fb_fbmp(166, 3, BMP_MAIN_WIFI0_13X13, 0, 1);
+	}
+}
+
+
+static void main_cnt_timeout(void *xTimer)
+{
+	Msg_Value_t mctsend_msg = {0};
+
+	mctsend_msg.cmd = MSG_CMD_PUB;
+
+	acitivy_send_msg(&mctsend_msg, 1000);
 }
 
 
@@ -159,10 +211,23 @@ uint16_t main_password_process(void *param, uint16_t input)
 				mpsend_msg_id.type = IDENTIFY_TYPE_CLEAR;
 				identify_send_msg(&mpsend_msg_id, 1000);
 			}
+			lock_cnt = 0;
 			break;
 		
 		case PWD_RETURN_FAIL:
 			lcd_fb_fbmp(170, 24, BMP_UNLOCK_ERROR_16X14, 0, 1);
+			if(lock_cnt < 5)
+				lock_cnt++;
+
+			if(lock_cnt >= 5)
+			{
+				main_item.index = 2;
+				mpsend_msg.cmd = MSG_CMD_SUB;				
+				acitivy_send_msg(&mpsend_msg, 1000);
+				mpsend_msg_id.type = IDENTIFY_TYPE_CLEAR;
+				identify_send_msg(&mpsend_msg_id, 1000);
+			}
+
 			break;
 
 		default:
@@ -353,9 +418,21 @@ uint16_t main_wifi_process(void *param, uint16_t input)
 	{
 		int len = 0;
 		char *data = wifi_recv_tcpdata(&len);
-		
-		if(len > 0)
-			printf(data);
+	}
+	
+	return 0;
+}
+
+
+uint16_t main_nbiot_process(void *param, uint16_t input)
+{	
+	uint8_t cmd = input>>8;
+	uint8_t val = input&0xFF;
+
+	if(cmd == NBIOT_RETURN_SUCCESS)
+	{
+		int len = 0;
+		char *data = nbiot_recv_tcpdata(&len);
 	}
 	
 	return 0;
@@ -421,7 +498,7 @@ uint16_t main_setup(uint16_t input)
 	
 	lcd_fb_line(184, 2, 187, 2, 1);
 	lcd_fb_rectangle(182, 3, 189, 16, 1, 0);
-	lcd_fb_rectangle(183, 7, 188, 15, 1, 1);
+	lcd_fb_rectangle(183, 9, 188, 16, 1, 1);
 
 	lcd_fb_rectangle(177, 5, 178, 16, 1, 1);
 	lcd_fb_rectangle(174, 8, 175, 16, 1, 1);
@@ -429,6 +506,7 @@ uint16_t main_setup(uint16_t input)
 	lcd_fb_rectangle(168, 14, 169, 16, 1, 1);
 
 	show_wifi_rssi(-999, 1);
+	show_nbiot_rssi(99, 1);
 
 	lcd_fb_puts(135, 6, ASCII_5X8, ".", 0, 1);
 	lcd_fb_puts(145, 6, ASCII_5X8, "C", 0, 1);
@@ -444,6 +522,8 @@ uint16_t main_setup(uint16_t input)
 	task_identify_enable(1);
 	fpc_identify_enable(1);
 	rtc_cnt_enable(0, RTC_FLAG_UNLOCK);
+	rtc_timeout_start(MAIN_NO_ACTION_TIMEOUT*1000, main_cnt_timeout);
+	lock_cnt = 0;
 	
 	return 0;
 }
@@ -451,13 +531,17 @@ uint16_t main_setup(uint16_t input)
 
 void main_idle(void)
 {
-	uint16_t temp = 0;
-	temp = rtc_get_temperature();
+	uint16_t temp = rtc_get_temperature();
+	uint16_t bat = rtc_get_battery();
 	lcd_fb_putn((temp >= 100) ? 125 : 130, 6, ASCII_5X8, temp/10, 0, 1);	
 	lcd_fb_putn(140, 6, ASCII_5X8, temp%10, 0, 1);	
 	show_wifi_rssi(wifi_get_rssi(), 0);
+	show_nbiot_rssi(nbiot_get_rssi(), 0);	
 
+	lcd_fb_rectangle(183, 4, 188, 15, 0, 1);
+	lcd_fb_rectangle(183, 4 + (100 - bat) * 12 /100, 188, 16, 1, 1);		
 }
+
 
 struct Menu_Item_t main_item = {
 	.index = 0,
@@ -471,8 +555,11 @@ struct Menu_Item_t main_item = {
 	.face_process = main_face_process,
 	.rtc_process = main_rtc_process,
 	.wifi_process = main_wifi_process,
+	.nbiot_process = main_nbiot_process,
+	.pub_menu = &start_item,
 	.sub_menu[0] = &unlock_item,
 	.sub_menu[1] = &manage1_item,
+	.sub_menu[2] = &lock_item,
 };
 
 

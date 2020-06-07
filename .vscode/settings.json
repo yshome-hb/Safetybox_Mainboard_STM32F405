@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "xtr1common": "c"
+        "xtr1common": "c",
+        "algorithm": "c",
+        "limits": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "xmemory0": "c",
+        "xutility": "c"
     }
 }

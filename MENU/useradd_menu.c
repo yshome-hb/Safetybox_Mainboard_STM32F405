@@ -193,7 +193,7 @@ uint16_t useradd_result_setup(uint16_t input)
 
 	device_set_user(choose_index, u_name, u_password[0], input);			
 
-	uasend_id.type = IDENTIFY_TYPE_SET_USER;
+	uasend_id.type = IDENTIFY_TYPE_SET_FLASH;
 	uasend_id.info.uid[0] = choose_index;
 	identify_send_msg(&uasend_id, 1000);
 	

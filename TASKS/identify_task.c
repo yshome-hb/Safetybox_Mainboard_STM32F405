@@ -350,7 +350,7 @@ void identify_task(void *pvParameters)
 					set_id = identify_set_mask(recv_msg_id.info.uid);
 					break;
 
-				case IDENTIFY_TYPE_SET_USER:
+				case IDENTIFY_TYPE_SET_FLASH:
 					set_id = 1;
 					break;					
 

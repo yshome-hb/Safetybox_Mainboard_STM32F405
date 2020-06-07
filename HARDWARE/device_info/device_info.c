@@ -1,6 +1,8 @@
 #include "string.h"
 #include "stmflash.h"
+#include "device_config.h"
 #include "device_info.h"
+
 
 static Dev_Info_t dev_info;
 
@@ -31,6 +33,9 @@ void device_info_reset()
 	dev_info.a_info.mask1 = (ID_FPC_BIT | ID_VEIN_BIT | ID_FACE_BIT);	
 	dev_info.a_info.mask2 = (ID_PWD_BIT);
 	dev_info.a_info.num = USER_MAX;
+	dev_info.a_info.warn_mode = WARN_BEEP;
+	dev_info.a_info.network_type = OFF_LINE;
+	dev_info.a_info.network_tick = 0;
 	strncpy(dev_info.a_info.adminname, DEFAULT_ADMIN_NAME, 12);
 	strncpy(dev_info.a_info.password, DEFAULT_ADMIN_PASSWORD, 12);
 }
@@ -131,5 +136,29 @@ uint32_t device_get_or_mask(void)
 uint32_t device_get_and_mask(void)
 {
 	return dev_info.a_info.mask2;
+}
+
+
+void device_set_networktype(uint16_t type)
+{
+	dev_info.a_info.network_type = type;
+}
+
+
+uint16_t device_get_networktype(void)
+{
+	return dev_info.a_info.network_type;
+}
+
+
+void device_set_warnmode(uint16_t mode)
+{
+	dev_info.a_info.warn_mode = mode;
+}
+
+
+uint16_t device_get_warnmode(void)
+{
+	return dev_info.a_info.warn_mode;
 }
 

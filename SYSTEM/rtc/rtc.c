@@ -34,8 +34,8 @@ uint8_t rtc_init(void)
     	RTC_InitStructure.RTC_HourFormat   = RTC_HourFormat_24;
     	RTC_Init(&RTC_InitStructure);
  
-		//RTC_Set_Time(23,59,56,RTC_H12_AM);	//设置时间
-		//RTC_Set_Date(14,5,5,6);		//设置日期
+		rtc_set_time(23,59,56);	//设置时间
+		rtc_set_date(14,5,5);		//设置日期
 	 
 		RTC_WriteBackupRegister(RTC_BKP_DR0, 0x5050);
 	} 
@@ -64,8 +64,7 @@ void rtc_init_wakeup(uint16_t cnt, Rtc_Int_f rtc_int)
 	// RTC_ClearITPendingBit(RTC_IT_WUT);
   	// EXTI_ClearITPendingBit(EXTI_Line22);
 	 
-	 RTC_ITConfig(RTC_IT_WUT, ENABLE);
-	RTC_WakeUpCmd( ENABLE);
+	RTC_ITConfig(RTC_IT_WUT, ENABLE);
 
 	RTC_ClearITPendingBit(RTC_IT_WUT);
   	EXTI_ClearITPendingBit(EXTI_Line22);
@@ -101,28 +100,50 @@ void rtc_set_wakeup(uint16_t cnt)
 }
 
 
-uint8_t rtc_set_time(uint8_t hour, uint8_t min, uint8_t sec, uint8_t ampm)
+uint8_t rtc_set_time(uint8_t hour, uint8_t min, uint8_t sec)
 {
 	RTC_TimeTypeDef RTC_TimeTypeInitStructure;
 	
 	RTC_TimeTypeInitStructure.RTC_Hours = hour;
 	RTC_TimeTypeInitStructure.RTC_Minutes = min;
 	RTC_TimeTypeInitStructure.RTC_Seconds = sec;
-	RTC_TimeTypeInitStructure.RTC_H12 = ampm;
 	
 	return RTC_SetTime(RTC_Format_BIN, &RTC_TimeTypeInitStructure);
 }
 
 
-uint8_t rtc_set_date(uint8_t year, uint8_t month, uint8_t date, uint8_t week)
+uint8_t rtc_set_date(uint8_t year, uint8_t month, uint8_t date)
 {
 	RTC_DateTypeDef RTC_DateTypeInitStructure;
 
 	RTC_DateTypeInitStructure.RTC_Date = date;
 	RTC_DateTypeInitStructure.RTC_Month = month;
-	RTC_DateTypeInitStructure.RTC_WeekDay = week;
 	RTC_DateTypeInitStructure.RTC_Year = year;
 	return RTC_SetDate(RTC_Format_BIN, &RTC_DateTypeInitStructure);
+}
+
+
+void rtc_get_time(uint8_t *hour, uint8_t *min, uint8_t *sec)
+{
+	RTC_TimeTypeDef RTC_TimeTypeInitStructure;
+	
+	RTC_GetTime(RTC_Format_BIN, &RTC_TimeTypeInitStructure);
+
+	*hour = RTC_TimeTypeInitStructure.RTC_Hours;
+	*min = RTC_TimeTypeInitStructure.RTC_Minutes;
+	*sec = RTC_TimeTypeInitStructure.RTC_Seconds;
+}
+
+
+void rtc_get_date(uint8_t *year, uint8_t *month, uint8_t *date)
+{
+	RTC_DateTypeDef RTC_DateTypeInitStructure;
+
+	RTC_GetDate(RTC_Format_BIN, &RTC_DateTypeInitStructure);
+
+	*date = RTC_DateTypeInitStructure.RTC_Date;
+	*month = RTC_DateTypeInitStructure.RTC_Month;
+	*year = RTC_DateTypeInitStructure.RTC_Year;
 }
 
 

@@ -12,7 +12,7 @@ static uint32_t lm_or_mask = 0;
 static uint32_t lm_and_mask = 0;
 
 
-void lockmode_show_mode(uint8_t i, uint8_t mode)
+static void lockmode_show_mode(uint8_t i, uint8_t mode)
 {
 	if(i == 0)
 	{

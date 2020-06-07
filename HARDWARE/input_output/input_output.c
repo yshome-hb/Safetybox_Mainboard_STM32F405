@@ -131,6 +131,11 @@ void io_output_init(void)
 	io_output[OUTPUT_BEEP].pin = GPIO_Pin_15;
 	io_output[OUTPUT_BEEP].type = GPIO_PuPd_UP;	
 	io_output[OUTPUT_BEEP].dvalue = 0;
+
+	io_output[OUTPUT_BACKLIGHT].gpiox = GPIOB;
+	io_output[OUTPUT_BACKLIGHT].pin = GPIO_Pin_7;
+	io_output[OUTPUT_BACKLIGHT].type = GPIO_PuPd_UP;	
+	io_output[OUTPUT_BACKLIGHT].dvalue = 0;		
 	
 	gpio_output_init(io_output, OUTPUT_MAX);
 }

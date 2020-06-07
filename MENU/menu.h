@@ -31,9 +31,10 @@ struct Menu_Item_t
 };
 
 
-
+extern struct Menu_Item_t start_item;
 extern struct Menu_Item_t main_item;
 extern struct Menu_Item_t unlock_item;
+extern struct Menu_Item_t lock_item;
 extern struct Menu_Item_t manage1_item;
 extern struct Menu_Item_t manage2_item;
 extern struct Menu_Item_t admin_item;
@@ -51,8 +52,11 @@ extern struct Menu_Item_t userdel_item;
 extern struct Menu_Item_t systeminfo_item;
 extern struct Menu_Item_t systemconfig_item;
 extern struct Menu_Item_t networkconfig_item;
+extern struct Menu_Item_t networkaccess_item;
 extern struct Menu_Item_t wifiinfo_item;
 extern struct Menu_Item_t wificonfig_item;
+extern struct Menu_Item_t nbiotinfo_item;
+extern struct Menu_Item_t datetime_item;
 
 
 uint16_t common_show_popup(const char *pop);

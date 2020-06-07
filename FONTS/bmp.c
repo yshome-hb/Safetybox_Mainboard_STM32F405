@@ -91,3 +91,4 @@ bmp_t* bmp_get(uint8_t bidx)
     bidx = ((bidx >= BMP_MAX) ? (BMP_MAX-1) : bidx);
     return &(BMP_ARRAY[bidx]);
 }
+

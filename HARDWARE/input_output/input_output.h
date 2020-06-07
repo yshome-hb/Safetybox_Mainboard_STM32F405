@@ -20,13 +20,14 @@ enum key_int_e
 enum io_output_e
 {
     OUTPUT_POWER_3V = 0,
-    OUTPUT_POWER_5V,
+    OUTPUT_POWER_5V,       
     OUTPUT_POWER_NB,
     OUTPUT_POWER_WIFI,
 		OUTPUT_POWER_FACE,  
     OUTPUT_UNLOCK,
 		OUTPUT_LIGHT,
-		OUTPUT_BEEP,    
+		OUTPUT_BEEP,  
+		OUTPUT_BACKLIGHT,   
 		OUTPUT_MAX,
 };
 

@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\input_output;..\FWLIB\inc;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\HARDWARE\lcd;..\FONTS;..\HARDWARE\fpc;..\SYSTEM;..\TASKS;..\HARDWARE\veinfinger;..\MENU;..\SYSTEM\spi;..\SYSTEM\gpio;..\SYSTEM\stmflash;..\HARDWARE\device_info;..\SYSTEM\timer;..\CJSON;..\HARDWARE\sipeed_mf1;..\SYSTEM\rtc;..\SYSTEM\iic;..\HARDWARE\sht2x;..\SYSTEM\adc;..\SYSTEM\rtc;..\HARDWARE\esp8266_at;..\HARDWARE\bc35_at</IncludePath>
+              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\input_output;..\FWLIB\inc;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\HARDWARE\lcd;..\FONTS;..\HARDWARE\fpc;..\SYSTEM;..\TASKS;..\HARDWARE\veinfinger;..\MENU;..\SYSTEM\spi;..\SYSTEM\gpio;..\SYSTEM\stmflash;..\HARDWARE\device_info;..\SYSTEM\timer;..\CJSON;..\HARDWARE\sipeed_mf1;..\SYSTEM\rtc;..\SYSTEM\iic;..\HARDWARE\sht2x;..\SYSTEM\adc;..\SYSTEM\rtc;..\HARDWARE\esp8266_at;..\HARDWARE\bc35_at;..\SYSTEM\wakeup;..\SYSTEM\exti</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -501,6 +501,16 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\adc\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>wakeup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\wakeup\wakeup.c</FilePath>
+            </File>
+            <File>
+              <FileName>exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\exti\exti.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -766,6 +776,26 @@
               <FileName>wifi_menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MENU\wifi_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>nbiot_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MENU\nbiot_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>systeminfo_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MENU\systeminfo_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>lock_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MENU\lock_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>datetime_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MENU\datetime_menu.c</FilePath>
             </File>
           </Files>
         </Group>

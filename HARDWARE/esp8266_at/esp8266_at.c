@@ -348,10 +348,11 @@ bool esp8266_close_tcp_socket(uint32_t timeout)
 	char *str_out = NULL;
 
 	esp8266_send_str("AT+CIPCLOSE\r\n");
-	str_out =  esp8266_recv_wait_str(timeout, "OK");
+	str_out = esp8266_recv_wait_str(timeout, "OK");
 
 	if(str_out == NULL)
 		return false;
 
 	return true;
 }
+

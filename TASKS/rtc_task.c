@@ -4,16 +4,25 @@
 #include "input_output.h"
 #include "sht2x.h"
 #include "adc.h"
+#include "device_config.h"
 #include "message.h"
 #include "activity_task.h"
 #include "rtc_task.h"
 #include "face_task.h"
 
 
+#define BATTERY_VOLTAG_MIN		2482	//(4.0/2 * 4096)
+#define BATTERY_VOLTAG_MAX		3724	//(6.0/2 * 4096)
+
+
 #define BATTERY_CHANNEL ADC_Channel_14
 
 
-TimerHandle_t 	RTC_Cnt_Loop_Handle;
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+
+
+TimerHandle_t  RTC_Cnt_Loop_Handle = NULL;
+TimerHandle_t  RTC_Cnt_Timeout_Handle = NULL;
 static uint8_t cnt_flag = 0;
 static uint8_t unlock_cnt = 0;
 static uint8_t face_cnt = 0;
@@ -28,17 +37,17 @@ static void rtc_set_flag(uint8_t on, uint8_t flag)
 	{
 		io_output_set(OUTPUT_UNLOCK, on);
 		io_output_set(OUTPUT_LIGHT, on); 
-		unlock_cnt = on ? 5 : 0;	
+		unlock_cnt = on ? UNLOCK_TIMEOUT : 0;	
 	}
 	else if(flag == RTC_FLAG_FACE)
 	{
 		io_output_set(OUTPUT_POWER_FACE, on);
-		face_cnt = on ? 10 : 0;
+		face_cnt = on ? FACE_DETECT_TIMEOUT : 0;
 	}
 	else if(flag == RTC_FLAG_BEEP)
 	{
 		io_output_set(OUTPUT_BEEP, on);
-		beep_cnt = on ? 10 : 0;
+		beep_cnt = on ? WAN_BEEP_TIMEOUT : 0;
 	}
 }
 
@@ -90,9 +99,9 @@ static void rtc_cnt_loop(TimerHandle_t xTimer)
   	if(adc1_get_value(BATTERY_CHANNEL, &bat_raw))
   	{
 		adc1_start_conv(BATTERY_CHANNEL);
-		battery_val = bat_raw * 66 / 4096;
+		bat_raw = constrain(bat_raw, BATTERY_VOLTAG_MIN, BATTERY_VOLTAG_MAX);
+		battery_val = ((uint32_t)bat_raw - BATTERY_VOLTAG_MIN) * 100 / 1242;
   	}
-
 
 	if(cnt_flag)
 	{
@@ -148,6 +157,9 @@ void rtc_task_create(void *pvParameters)
 									(void*			 )2,
 									(TimerCallbackFunction_t)rtc_cnt_loop); 																	
 
+
+
+
 	xTimerStart(RTC_Cnt_Loop_Handle, 0);
 
 	adc1_start_conv(BATTERY_CHANNEL);
@@ -155,4 +167,38 @@ void rtc_task_create(void *pvParameters)
 	//sht2x_init(RH_12_T_14);
 }
 
+
+void rtc_timeout_start(uint32_t tick, timeout_cb_f timeout_cb)
+{
+
+  	RTC_Cnt_Timeout_Handle = xTimerCreate((const char*)"rtc_cnt_timeout",
+									(TickType_t	 )tick,
+									(UBaseType_t )pdFALSE,
+									(void*		 )3,
+									(TimerCallbackFunction_t)timeout_cb); 
+
+	xTimerStart(RTC_Cnt_Timeout_Handle, 0);	
+}
+
+
+void rtc_timeout_stop()
+{
+	if(xTimerIsTimerActive(RTC_Cnt_Timeout_Handle) != pdFALSE)	
+		xTimerStop(RTC_Cnt_Timeout_Handle, 100);
+	
+	if(RTC_Cnt_Timeout_Handle != NULL)
+		xTimerDelete(RTC_Cnt_Timeout_Handle, 100);
+
+	RTC_Cnt_Timeout_Handle = NULL;
+}
+
+
+void rtc_timeout_reset()
+{
+	if(RTC_Cnt_Timeout_Handle == NULL)
+		return;
+
+	if(xTimerIsTimerActive(RTC_Cnt_Timeout_Handle) != pdFALSE)
+		xTimerReset(RTC_Cnt_Timeout_Handle, 0);	
+}
 

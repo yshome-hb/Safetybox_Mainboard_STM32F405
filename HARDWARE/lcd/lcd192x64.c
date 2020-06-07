@@ -127,9 +127,9 @@ static void lcd_drv_hw_init(void)
   LCD_GPIO_RST = 1;
 #endif	
 
-	LCD_GPIO_LIGHT = 0;
-  delay_ms(10);
-	LCD_GPIO_LIGHT = 1;
+//	LCD_GPIO_LIGHT = 0;
+//  delay_ms(10);
+//	LCD_GPIO_LIGHT = 1;
 
   delay_ms(200);
   lcd_drv_send_cmd(0xE2);

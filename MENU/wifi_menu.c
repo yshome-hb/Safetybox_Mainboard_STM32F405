@@ -18,7 +18,7 @@ uint16_t wifiinfo_setup(uint16_t input)
 	lcd_fb_line(1, 20, 191, 20, 1);
 	lcd_fb_fbmp(4, 4, BMP_MENU_BACK_12X12, 0, 1);
 	lcd_fb_puthzs(80, 2, "wifi◊¥Ã¨", 0, 1);
-	lcd_fb_puthzs(20, 2, "1/1", 0, 1);	
+	lcd_fb_puthzs(20, 2, "1/2", 0, 1);	
 	
 	wisend_msg.cmd = WIFI_CMD_INFO;
 	wisend_msg.value.s_val = 0;
@@ -37,7 +37,7 @@ uint16_t wificonfig_setup(uint16_t input)
 	lcd_fb_line(1, 20, 191, 20, 1);
 	lcd_fb_fbmp(4, 4, BMP_MENU_BACK_12X12, 0, 1);
 	lcd_fb_puthzs(80, 2, "wifi…Ë÷√", 0, 1);
-	lcd_fb_puthzs(20, 2, "1/1", 0, 1);	
+	lcd_fb_puthzs(20, 2, "2/2", 0, 1);	
 	
 	if(rssi < -200)
 		lcd_fb_puthzs(5, 23, "Œ¥¡¨Ω”Õ¯¬Á", 0, 1);
@@ -59,7 +59,12 @@ uint16_t wifiinfo_key_process(void *param, uint16_t input)
 	if(key_cmd != 0xA5)
 		return 0;
 
-	if(key_val == '\b')
+	if(key_val == 'd')
+	{
+		wisend_msg.cmd = MSG_CMD_NEXT;				
+		acitivy_send_msg(&wisend_msg, 1000);
+	}
+	else if(key_val == '\b')
 	{
 		wisend_msg.cmd = MSG_CMD_PUB;				
 		acitivy_send_msg(&wisend_msg, 1000);
@@ -79,7 +84,12 @@ uint16_t wificonfig_key_process(void *param, uint16_t input)
 	if(key_cmd != 0xA5)
 		return 0;
 
-	if(key_val == '\n')
+	if(key_val == 'u')
+	{
+		wcsend_msg.cmd = MSG_CMD_PRE;				
+		acitivy_send_msg(&wcsend_msg, 1000);
+	}
+	else if(key_val == '\n')
 	{
 		if(wificonfig_flag > 1)
 		{
@@ -186,7 +196,7 @@ struct Menu_Item_t wifiinfo_item = {
 	.sub_menu[1] = NULL,
 	.sub_menu[2] = NULL,
 	.sub_menu[3] = NULL,
-	.next_menu = NULL,
+	.next_menu = &wificonfig_item,
 	.pre_menu = NULL,
 };
 
@@ -208,6 +218,6 @@ struct Menu_Item_t wificonfig_item = {
 	.sub_menu[2] = NULL,
 	.sub_menu[3] = NULL,
 	.next_menu = NULL,
-	.pre_menu = NULL,
+	.pre_menu = &wifiinfo_item,
 };
 

@@ -2,6 +2,7 @@
 #include "task.h"
 #include "queue.h"
 #include "lcd192x64.h"
+#include "input_output.h"
 #include "spi_slave.h"
 #include "menu.h"
 #include "message.h"
@@ -58,14 +59,20 @@ uint8_t activity_debug_parse(uint8_t _input)
 
 static inline uint16_t activity_protocol_parse(uint16_t _input)
 {
-	BaseType_t xHigherPriorityTaskWoken;
 	Msg_Value_t key_msg = {
 		.cmd = MSG_CMD_KEY,
 		.value = _input,
 	};
-	xQueueSendFromISR(activity_queue, &key_msg, &xHigherPriorityTaskWoken);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	acitivy_send_msg_isr(&key_msg);
 	return 0;
+}
+
+
+void acitivy_send_msg_isr(const void *msg)
+{
+	BaseType_t xHigherPriorityTaskWoken;
+	xQueueSendFromISR(activity_queue, msg, &xHigherPriorityTaskWoken);
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 
@@ -85,6 +92,7 @@ void acitivy_task(void *pvParameters)
 	activity_queue = xQueueCreate(ACTIVITY_QUEUE_NUM, sizeof(Msg_Value_t));
 
 	lcd_drv_init();		
+	io_output_set(OUTPUT_BACKLIGHT, 1);
 
 	while(1)
 	{
@@ -101,7 +109,7 @@ void acitivy_task(void *pvParameters)
 						break;
 					 
 					case MSG_CMD_KEY:
-						printf("key: %x\r\n", activity_msg.value.s_val);
+						//printf("key: %x\r\n", activity_msg.value.s_val);
 					
 						if(acvitiy_item->key_process != NULL)
 						{

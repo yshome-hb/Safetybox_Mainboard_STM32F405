@@ -31,7 +31,7 @@ static int32_t wifi_rssi = -999;
 static char ssid[32] = {0};
 static char ipaddr[32] = {0};
 static char send_ip[32] = {0};
-static int send_port = 0;
+static uint16_t send_port = 0;
 static char *send_data = NULL;
 static int send_len = 0;
 static char recv_data[128] = {0};
@@ -76,7 +76,7 @@ void wifi_received_enable(uint8_t on)
 }
 
 
-void wifi_send_tcpdata(char *ip, int port, const char *data, int len, uint16_t recv_time)
+void wifi_send_tcpdata(char *ip, uint16_t port, const char *data, int len, uint16_t recv_time)
 {
 	Msg_Value_t stcpsend_msg = {0};
 
@@ -109,12 +109,6 @@ char* wifi_recv_tcpdata(int *len)
 }
 
 
-int32_t wifi_send_msg(const void *msg, uint32_t timeout)
-{
-	return xQueueSend(wifi_queue, msg, timeout);
-}
-
-
 static int wifi_recv_wait(char* data, int len, uint32_t timeout)
 {
 	uint32_t nowTime = xTaskGetTickCount();
@@ -123,12 +117,21 @@ static int wifi_recv_wait(char* data, int len, uint32_t timeout)
 
 	while(nowTime < endTime)
 	{
+		vTaskDelay(500);
 		recv_len = esp8266_recv_tcp_msg(data, len, 500);
 		if(recv_len < 0 || recv_len > 0)
 			break;
+
+		nowTime = xTaskGetTickCount();
 	}
 
 	return recv_len;	
+}
+
+
+int32_t wifi_send_msg(const void *msg, uint32_t timeout)
+{
+	return xQueueSend(wifi_queue, msg, timeout);
 }
 
 
@@ -232,7 +235,6 @@ void wifi_task(void *pvParameters)
 		}
 		else
 		{
-			wifi_event_bit = xEventGroupGetBits(wifi_event_group);
 			wifi_access = esp8266_get_rssi(&wifi_rssi, 1000);
 		}
 	} 
