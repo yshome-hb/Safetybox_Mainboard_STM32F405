@@ -4,7 +4,7 @@
 #include "sys.h"
 #include "stmflash.h"
 
-//#define FLASH_FONT
+#define FLASH_FONT
 
 #define FLASH_ADDR_GB2312_16x16     (ADDR_FLASH_SECTOR_6)
 #define FLASH_ADDR_ASCII_5x8        (ADDR_FLASH_SECTOR_5)

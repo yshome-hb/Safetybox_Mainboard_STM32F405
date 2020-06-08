@@ -12,7 +12,7 @@
 
 uint16_t systemconfig_setup(uint16_t input)
 {
-	common_setup("系统设置", "恢复出厂", NULL, NULL, NULL);
+	common_setup("系统设置", "恢复出厂", "开锁延时", NULL, NULL);
 	lcd_fb_puthzs(20, 2, "1/1", 0, 1);
 	
 	return 0;

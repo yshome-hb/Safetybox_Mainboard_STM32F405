@@ -27,8 +27,8 @@ TaskHandle_t StartTask_Handler;
 
 static void SoftReset(void)
 {
-    // __set_FAULTMASK(1);
-    // NVIC_SystemReset();
+    __set_FAULTMASK(1);
+    NVIC_SystemReset();
 }
 
 
@@ -59,7 +59,7 @@ static void rtc_timeout()
 
 void activity_hook()
 {
-//	rtc_set_wakeup(LOCK_TIMEOUT);
+	rtc_timeout_reset();
 }
 
 

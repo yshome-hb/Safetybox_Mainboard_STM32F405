@@ -197,7 +197,7 @@ void RTC_WKUP_IRQHandler(void)
 		RTC_ClearFlag(RTC_FLAG_WUTF);
 		if(wakeup_int != NULL)
 			wakeup_int();
-	}   
+	}
 	EXTI_ClearITPendingBit(EXTI_Line22);								
 }
 

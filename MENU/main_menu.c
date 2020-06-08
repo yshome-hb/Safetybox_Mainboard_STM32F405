@@ -113,7 +113,9 @@ uint16_t main_int_process(void *param, uint16_t input)
 			break;
 
 		case INPUT_SHAKE:
-			rtc_cnt_enable(1, RTC_FLAG_BEEP);
+			uint16_t warn_mode = device_get_warnmode();
+			if(warn_mode & WARN_BEEP)
+				rtc_cnt_enable(1, RTC_FLAG_BEEP);
 			break;
 
 		default:
