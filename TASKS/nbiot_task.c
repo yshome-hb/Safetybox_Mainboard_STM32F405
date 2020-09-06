@@ -20,8 +20,8 @@
 //#define WIFI_SMARTCONFIG_BIT   (1<<0)
 
 
-TaskHandle_t Nbiot_Task_Handler;
-static QueueHandle_t nbiot_queue;
+TaskHandle_t Nbiot_Task_Handler = NULL;
+static QueueHandle_t nbiot_queue = NULL;
 static EventGroupHandle_t nbiot_event_group = NULL;//24bit
 
 static uint8_t nbiot_access = 0;
@@ -247,3 +247,28 @@ void nbiot_task_create(void *pvParameters)
 
 }
 
+
+void nbiot_task_delete(void)
+{
+	if(Nbiot_Task_Handler == NULL)
+		return;
+
+	vTaskDelete(Nbiot_Task_Handler);
+	Nbiot_Task_Handler = NULL;
+
+	io_output_set(OUTPUT_POWER_NB, 0);
+
+	if(send_data != NULL)
+	{
+		vPortFree(send_data);
+		send_data = NULL;
+	}
+
+	if(nbiot_queue != NULL)
+	{
+		vQueueDelete(nbiot_queue);
+		nbiot_queue = NULL;
+	}
+
+	bc35_deinit();
+}

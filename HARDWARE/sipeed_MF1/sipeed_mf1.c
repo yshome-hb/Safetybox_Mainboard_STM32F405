@@ -69,10 +69,17 @@ static void mf1_send_str(const char *str)
 }
 
 
-void mf1_init()
+void mf1_init(void)
 {
 	uart3_init(MF1_BUADRATE, mf1_protocol_receive);
 	mf1_sem = xSemaphoreCreateBinary();
+}
+
+
+void mf1_deinit(void)
+{
+	uart3_deinit();
+	vSemaphoreDelete(mf1_sem);
 }
 
 

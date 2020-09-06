@@ -21,8 +21,8 @@
 #define WIFI_RECEIVED_BIT    	(1<<1)
 
 
-TaskHandle_t Wifi_Task_Handler;
-static QueueHandle_t wifi_queue;
+TaskHandle_t Wifi_Task_Handler = NULL;
+static QueueHandle_t wifi_queue = NULL;
 static EventGroupHandle_t wifi_event_group = NULL;//24bit
 
 
@@ -253,3 +253,28 @@ void wifi_task_create(void *pvParameters)
 
 }
 
+
+void wifi_task_delete(void)
+{
+	if(Wifi_Task_Handler == NULL)
+		return;
+
+	vTaskDelete(Wifi_Task_Handler);
+	Wifi_Task_Handler = NULL;
+
+	io_output_set(OUTPUT_POWER_WIFI, 0);
+
+	if(send_data != NULL)
+	{
+		vPortFree(send_data);
+		send_data = NULL;
+	}
+
+	if(wifi_queue != NULL)
+	{
+		vQueueDelete(wifi_queue);
+		wifi_queue = NULL;
+	}
+
+	esp8266_deinit();
+}

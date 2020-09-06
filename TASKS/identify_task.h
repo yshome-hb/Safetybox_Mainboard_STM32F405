@@ -55,6 +55,7 @@ uint16_t identify_check_username(const char *str);
 uint16_t identify_check_password(const char *str);
 int32_t identify_send_msg(const void *msg, uint32_t timeout);
 void identify_task_create(void *pvParameters);
+void identify_task_delete(void);
 
 
 #endif

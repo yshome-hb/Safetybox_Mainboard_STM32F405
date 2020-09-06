@@ -183,6 +183,9 @@ void rtc_timeout_start(uint32_t tick, timeout_cb_f timeout_cb)
 
 void rtc_timeout_stop()
 {
+	if(RTC_Cnt_Timeout_Handle == NULL)
+		return;
+	
 	if(xTimerIsTimerActive(RTC_Cnt_Timeout_Handle) != pdFALSE)	
 		xTimerStop(RTC_Cnt_Timeout_Handle, 100);
 	

@@ -32,6 +32,7 @@ void nbiot_send_tcpdata(const char *data, int len, uint16_t recv_time);
 char* nbiot_recv_tcpdata(int *len);
 int32_t nbiot_send_msg(const void *msg, uint32_t timeout);
 void nbiot_task_create(void *pvParameters);
+void nbiot_task_delete(void);
 
 
 #endif

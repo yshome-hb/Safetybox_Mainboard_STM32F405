@@ -13,15 +13,15 @@
 
 #define FACE_QUEUE_NUM   	4
 
-#define FACE_TASK_PRIO		6
+#define FACE_TASK_PRIO		10
 #define FACE_STK_SIZE 		1024  
 
 #define FACE_IDENTIFY_BIT   (1<<0)
 #define FACE_CONFIG_BIT   	(1<<1)
 
 
-TaskHandle_t Face_Task_Handler;
-static QueueHandle_t face_queue;
+TaskHandle_t Face_Task_Handler = NULL;
+static QueueHandle_t face_queue = NULL;
 static EventGroupHandle_t face_event_group = NULL;//24bit
 
 
@@ -233,3 +233,20 @@ void face_task_create(void *pvParameters)
 
 }
 
+
+void face_task_delete(void)
+{
+	if(Face_Task_Handler == NULL)
+		return;
+
+	vTaskDelete(Face_Task_Handler);
+	Face_Task_Handler = NULL;
+
+	if(face_queue != NULL)
+	{
+		vQueueDelete(face_queue);
+		face_queue = NULL;
+	}
+
+	mf1_deinit();
+}

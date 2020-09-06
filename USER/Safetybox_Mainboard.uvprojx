@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\input_output;..\FWLIB\inc;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\HARDWARE\lcd;..\FONTS;..\HARDWARE\fpc;..\SYSTEM;..\TASKS;..\HARDWARE\veinfinger;..\MENU;..\SYSTEM\spi;..\SYSTEM\gpio;..\SYSTEM\stmflash;..\HARDWARE\device_info;..\SYSTEM\timer;..\CJSON;..\HARDWARE\sipeed_mf1;..\SYSTEM\rtc;..\SYSTEM\iic;..\HARDWARE\sht2x;..\SYSTEM\adc;..\SYSTEM\rtc;..\HARDWARE\esp8266_at;..\HARDWARE\bc35_at;..\SYSTEM\wakeup;..\SYSTEM\exti</IncludePath>
+              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\input_output;..\FWLIB\inc;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM4F;..\HARDWARE\lcd;..\FONTS;..\HARDWARE\fpc;..\SYSTEM;..\TASKS;..\HARDWARE\veinfinger;..\MENU;..\SYSTEM\spi;..\SYSTEM\gpio;..\SYSTEM\stmflash;..\HARDWARE\device_info;..\SYSTEM\timer;..\CJSON;..\HARDWARE\sipeed_mf1;..\SYSTEM\rtc;..\SYSTEM\iic;..\HARDWARE\sht2x;..\SYSTEM\adc;..\SYSTEM\rtc;..\HARDWARE\esp8266_at;..\HARDWARE\bc35_at;..\SYSTEM\wakeup;..\SYSTEM\exti;..\SYSTEM\wwdg</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -512,6 +512,11 @@
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\exti\exti.c</FilePath>
             </File>
+            <File>
+              <FileName>wwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\wwdg\wwdg.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -591,6 +596,11 @@
               <FileName>stm32f4xx_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\src\stm32f4xx_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_wwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLIB\src\stm32f4xx_wwdg.c</FilePath>
             </File>
           </Files>
         </Group>

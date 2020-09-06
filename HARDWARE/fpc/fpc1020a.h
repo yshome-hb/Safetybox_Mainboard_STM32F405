@@ -52,6 +52,7 @@ struct FPC_Protocol_Handle_t{
 
 
 void fpc1020a_drv_init(void);
+void fpc1020a_drv_deinit(void);
 uint8_t fpc1020a_number(uint16_t *num, uint32_t timeout);
 uint8_t fpc1020a_authority(uint16_t u_id, uint8_t *auth, uint32_t timeout);
 uint8_t fpc1020a_clear(uint32_t timeout);

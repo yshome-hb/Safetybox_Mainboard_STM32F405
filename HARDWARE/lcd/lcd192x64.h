@@ -33,6 +33,7 @@
 #define LCD_DRV_PAGE_MAX (LCD_DRV_MAX_Y / LCD_DRV_PAGE_ROW)
 
 extern void lcd_drv_init(void);
+extern void lcd_drv_deinit(void);
 extern void lcd_drv_update(void);
 
 extern void lcd_fb_clear(uint8_t mask);

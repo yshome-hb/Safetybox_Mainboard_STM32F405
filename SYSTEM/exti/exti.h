@@ -6,6 +6,7 @@
 
 typedef void (*Exti_Int_f)(void);
 
+void exti1_init(Exti_Int_f exti_int);
 void exti15_10_init(Exti_Int_f exti_int);	 					    
 
 #endif

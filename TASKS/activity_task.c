@@ -11,7 +11,7 @@
 
 #define ACTIVITY_QUEUE_NUM    	10
 
-#define ACTIVITY_TASK_PRIO		10
+#define ACTIVITY_TASK_PRIO		5
 #define ACTIVITY_STK_SIZE 		2048 
 
 
@@ -26,8 +26,8 @@ const char key_char[] = {
 };
 
 
-TaskHandle_t Acitivity_Task_Handler;
-static QueueHandle_t activity_queue;
+TaskHandle_t Acitivity_Task_Handler = NULL;
+static QueueHandle_t activity_queue = NULL;
 
 static struct Menu_Item_t *acvitiy_item = NULL;
 
@@ -237,6 +237,26 @@ void activity_task_create(struct Menu_Item_t *menu, void *activity_hook)
                 (UBaseType_t    )ACTIVITY_TASK_PRIO,
                 (TaskHandle_t*  )&Acitivity_Task_Handler);  
 
+}
+
+
+void activity_task_delete(void)
+{
+	// if(Acitivity_Task_Handler == NULL)
+	// 	return;
+
+	// vTaskDelete(Acitivity_Task_Handler);
+	// Acitivity_Task_Handler = NULL;
+
+	// if(activity_queue != NULL)
+	// {
+	// 	vQueueDelete(activity_queue);
+	// 	activity_queue = NULL;
+	// }
+
+	lcd_drv_deinit();		
+	io_output_set(OUTPUT_BACKLIGHT, 0);
+	spi2_deinit();
 }
 
 

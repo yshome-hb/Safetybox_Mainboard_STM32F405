@@ -37,7 +37,7 @@ void spi2_init(Receive_Parse16_f receive_parse)
 	SPI_InitStructure.SPI_CRCPolynomial = 7;
 	SPI_Init(SPI2, &SPI_InitStructure); 	
 	
-	SPI_Cmd(SPI2 , ENABLE);
+	SPI_Cmd(SPI2, ENABLE);
 	
 	SPI_I2S_ITConfig(SPI2, SPI_I2S_IT_RXNE, ENABLE);
 
@@ -46,6 +46,14 @@ void spi2_init(Receive_Parse16_f receive_parse)
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority =0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
+}
+
+
+void spi2_deinit(void)
+{
+	SPI_I2S_ITConfig(SPI2, SPI_I2S_IT_RXNE, DISABLE);
+	SPI_Cmd(SPI2, DISABLE);
+	SPI_DeInit(SPI2); 
 }
 
 

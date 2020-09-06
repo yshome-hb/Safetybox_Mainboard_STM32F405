@@ -10,14 +10,14 @@
 
 #define FPC_QUEUE_NUM   4
 
-#define FPC_TASK_PRIO	5
+#define FPC_TASK_PRIO	10
 #define FPC_STK_SIZE 	350  
 
 #define FPC_IDENTIFY_BIT   (1<<0)
 
 
-TaskHandle_t FPC_Task_Handler;
-static QueueHandle_t fpc_queue;
+TaskHandle_t FPC_Task_Handler = NULL;
+static QueueHandle_t fpc_queue = NULL;
 static EventGroupHandle_t fpc_event_group = NULL;//24bit
 
 
@@ -225,3 +225,20 @@ void fpc_task_create(void *pvParameters)
 
 }
 
+
+void fpc_task_delete(void)
+{
+	if(FPC_Task_Handler == NULL)
+		return;
+
+	vTaskDelete(FPC_Task_Handler);
+	FPC_Task_Handler = NULL;
+
+	if(fpc_queue != NULL)
+	{
+		vQueueDelete(fpc_queue);
+		fpc_queue = NULL;
+	}
+
+	fpc1020a_drv_deinit();
+}

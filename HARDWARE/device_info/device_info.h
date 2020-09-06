@@ -81,6 +81,7 @@ typedef struct
 
 
 bool device_info_init(void);
+bool device_save_reset_flag(void);
 void device_info_reset(void);
 bool device_info_flash(void);
 char* device_get_admin(void);

@@ -25,6 +25,6 @@ enum vein_return_e
 
 extern int32_t vein_send_msg(const void *msg, uint32_t timeout);
 void vein_task_create(void *pvParameters);
-
+void vein_task_delete(void);
 
 #endif

@@ -40,6 +40,7 @@ struct MF1_Protocol_Handle_t{
 
 
 void mf1_init(void);
+void mf1_deinit(void);
 
 #ifdef USE_JSON
 struct MF1_Protocol_Handle_t *mf1_buffer_parse(uint32_t timeout);

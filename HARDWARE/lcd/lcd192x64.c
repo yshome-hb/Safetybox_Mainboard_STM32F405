@@ -130,12 +130,6 @@ static void lcd_drv_hw_init(void)
 //	LCD_GPIO_LIGHT = 0;
 //  delay_ms(10);
 //	LCD_GPIO_LIGHT = 1;
-
-  delay_ms(200);
-  lcd_drv_send_cmd(0xE2);
-  delay_ms(200);
-  lcd_drv_send_cmd(0x2F);
-  delay_ms(200);
 }
 
 
@@ -162,11 +156,7 @@ static void lcd_drv_hw_open(void)
  */
 static void lcd_drv_hw_close(void)
 {
-#if 0
-  lcd_drv_send_data(0X8D, LCD_SEND_MODE_CMD); //SET DCDC
-  lcd_drv_send_data(0X10, LCD_SEND_MODE_CMD); //DCDC OFF
-  lcd_drv_send_data(0XAE, LCD_SEND_MODE_CMD); //DISPLAY OFF
-#endif
+  lcd_drv_send_cmd(0xAE);
 }
 
 /*
@@ -176,19 +166,11 @@ static void lcd_drv_hw_close(void)
  */
 static void lcd_drv_hw_clear(void)
 {
-#if 0
-  int32_t i, n;
-  for (i = 0; i < 8; i++)
-  {
-    lcd_drv_send_data(0xb0 + i, LCD_SEND_MODE_CMD);
-    lcd_drv_send_data(0x02, LCD_SEND_MODE_CMD);
-    lcd_drv_send_data(0x10, LCD_SEND_MODE_CMD);
-    for (n = 0; n < 128; n++)
-    {
-      lcd_drv_send_data(0, LCD_DISP_MODE_DAT);
-    }
-  }
-#endif
+  delay_ms(200);
+  lcd_drv_send_cmd(0xE2);
+  delay_ms(200);
+  lcd_drv_send_cmd(0x2F);
+  delay_ms(200);
 }
 
 
@@ -213,6 +195,20 @@ void lcd_drv_init(void)
   lcd_fb_set_orientation(0);
   lcd_fb_clear(0);
 	lcd_drv_update();
+}
+
+/*
+ * lcd_drv_denit:
+ *
+ *********************************************************************************
+ */
+void lcd_drv_deinit(void)
+{
+  lcd_drv_hw_close();
+  LCD_GPIO_CS = 0;
+  LCD_GPIO_DC = 0;
+  LCD_GPIO_SCL = 0;
+  LCD_GPIO_SDA = 0;  
 }
 
 /*

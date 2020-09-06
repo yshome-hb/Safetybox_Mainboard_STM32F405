@@ -9,6 +9,7 @@
 #include "adc.h"
 #include "exti.h"
 #include "wakeup.h"
+#include "wwdg.h"
 #include "message.h"
 #include "activity_task.h"
 #include "identify_task.h"
@@ -25,24 +26,25 @@
 TaskHandle_t StartTask_Handler;
 
 
-static void SoftReset(void)
-{
-    __set_FAULTMASK(1);
-    NVIC_SystemReset();
-}
-
-
 uint16_t sleep_setup(uint16_t input)
 {
-  	io_output_set(OUTPUT_POWER_3V, 0);
-  	io_output_set(OUTPUT_POWER_5V, 0);	
-  	io_output_set(OUTPUT_POWER_NB, 0);
-  	io_output_set(OUTPUT_POWER_WIFI, 0);
-  	io_output_set(OUTPUT_BACKLIGHT, 0);	
-	
-	wakeup_stop_prepare();
-	exti15_10_init(SoftReset);
-	wakeup_stop();
+  	io_output_set(OUTPUT_LIGHT, 0);	//关闭补光灯
+  	io_output_set(OUTPUT_BEEP, 0);	//关闭蜂鸣器
+
+	io_task_stop();
+	rtc_timeout_stop();
+	wifi_task_delete();
+	nbiot_task_delete();	
+	identify_task_delete();
+	activity_task_delete();
+
+  	io_output_set(OUTPUT_POWER_5V, 0); //关闭系统5V电源
+  	io_output_set(OUTPUT_POWER_3V, 0);	//关闭系统3V电源
+
+	wakeup_stop_prepare();	//关闭系统外设
+	//exti1_init(soft_reset);
+	exti15_10_init(soft_reset);	//设置按键信号为唤醒源
+	wakeup_stop();	//系统休眠
 	return 0;
 }
 
@@ -80,7 +82,7 @@ void hw_system_init()
 	adc1_init();
 	rtc_init();
 
-	//uart1_init(115200, activity_debug_parse);
+	uart1_init(115200, activity_debug_parse);
 	
 	rtc_init_wakeup(LOCK_TIMEOUT, rtc_timeout);	
 }
@@ -99,8 +101,6 @@ void start_task(void *pvParameters)
 		
 	activity_task_create(&start_item, activity_hook);
 
-	io_task_create(NULL);
-
 	wifi_task_create(NULL);
 
 	nbiot_task_create(NULL);
@@ -109,6 +109,9 @@ void start_task(void *pvParameters)
 
 	start_send_msg.cmd = MSG_CMD_SUB;
 	acitivy_send_msg(&start_send_msg, 1000);
+
+	vTaskDelay(2000);
+	io_task_create(NULL);
 
  	vTaskDelete(StartTask_Handler);
 }

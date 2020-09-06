@@ -24,6 +24,6 @@ enum fpc_return_e
 void fpc_identify_enable(uint8_t on);
 int32_t fpc_send_msg(const void *msg, uint32_t timeout);
 void fpc_task_create(void *pvParameters);
-
+void fpc_task_delete(void);
 
 #endif

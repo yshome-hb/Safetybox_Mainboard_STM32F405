@@ -3,6 +3,7 @@
 
 #include "sys.h"
 
+void soft_reset(void);
 void wakeup_stop_prepare(void);
 void wakeup_stop(void);
 

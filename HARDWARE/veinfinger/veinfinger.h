@@ -166,6 +166,7 @@ enum VOICE_e
 };
 
 void xg_drv_init(void);
+void xg_drv_deinit(void);
 uint8_t xg_reboot(uint32_t timeout);
 uint8_t xg_connect(uint32_t timeout);
 uint8_t xg_close_connect(uint32_t timeout);

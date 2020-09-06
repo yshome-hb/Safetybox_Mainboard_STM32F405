@@ -15,15 +15,15 @@
 
 #define IDENTIFY_QUEUE_NUM    4
 
-#define IDENTIFY_TASK_PRIO	  7
+#define IDENTIFY_TASK_PRIO	  6
 #define IDENTIFY_STK_SIZE 	  512  
 
 
 #define IDENTIFY_ENABLE_BIT   (1<<0)
 
 
-TaskHandle_t Identify_Task_Handler;
-static QueueHandle_t identify_queue;
+TaskHandle_t Identify_Task_Handler = NULL;
+static QueueHandle_t identify_queue = NULL;
 static EventGroupHandle_t identify_event_group = NULL;//24bit
 
 
@@ -458,3 +458,21 @@ void identify_task_create(void *pvParameters)
 }
 
 
+void identify_task_delete(void)
+{
+	if(Identify_Task_Handler == NULL)
+		return;
+
+	vTaskDelete(Identify_Task_Handler);
+	Identify_Task_Handler = NULL;
+
+	if(identify_queue != NULL)
+	{
+		vQueueDelete(identify_queue);
+		identify_queue = NULL;
+	}
+
+	fpc_task_delete();      
+	vein_task_delete();
+	face_task_delete();	
+}

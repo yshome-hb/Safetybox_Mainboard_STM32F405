@@ -16,6 +16,7 @@
 
 void esp8266_buffer_flush(void);
 void esp8266_init(void);
+void esp8266_deinit(void);
 bool esp8266_setup(uint32_t timeout);
 bool esp8266_testAT(uint32_t timeout);
 bool esp8266_set_mode(uint8_t mode, uint32_t timeout);

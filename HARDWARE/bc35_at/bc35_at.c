@@ -165,10 +165,17 @@ void bc35_buffer_flush()
 	memset(bc35_uart_buffer, 0, BUFFER_SIZE);
 }
 
-void bc35_init()
+void bc35_init(void)
 {
 	uart2_init(BC35_BUADRATE, bc35_protocol_receive);
 	bc35_sem = xSemaphoreCreateBinary();
+}
+
+
+void bc35_deinit(void)
+{
+	uart2_deinit();
+	vSemaphoreDelete(bc35_sem);
 }
 
 

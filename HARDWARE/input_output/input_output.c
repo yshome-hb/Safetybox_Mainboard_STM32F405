@@ -72,6 +72,12 @@ void io_input_init(void)
 }
 
 
+void io_input_deinit(void)
+{
+	timer3_deinit();
+}
+
+
 uint8_t io_input_update(uint8_t idx)
 {
 	return gpio_filter_value(input_filter+idx);

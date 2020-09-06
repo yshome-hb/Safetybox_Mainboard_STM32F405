@@ -127,10 +127,17 @@ void esp8266_buffer_flush()
 	memset(esp8266_uart_buffer, 0, BUFFER_SIZE);
 }
 
-void esp8266_init()
+void esp8266_init(void)
 {
 	uart6_init(ESP8266_BUADRATE, esp8266_protocol_receive);
 	esp8266_sem = xSemaphoreCreateBinary();
+}
+
+
+void esp8266_deinit(void)
+{
+	uart6_deinit();
+	vSemaphoreDelete(esp8266_sem);
 }
 
 

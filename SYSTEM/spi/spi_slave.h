@@ -7,6 +7,7 @@
 typedef uint16_t (*Receive_Parse16_f)(uint16_t _input);
 
 void spi2_init(Receive_Parse16_f receive_parse);
+void spi2_deinit(void);
 
 #endif
 

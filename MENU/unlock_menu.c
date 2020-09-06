@@ -19,7 +19,7 @@ static uint8_t admin_flag = 0;
 uint16_t unlock_int_process(void *param, uint16_t input)
 {
 	uint8_t int_cmd = input>>8;
-	uint8_t int_val = input&0xFF;
+//	uint8_t int_val = input&0xFF;
 	
 	switch(int_cmd)
 	{
@@ -104,7 +104,7 @@ uint16_t unlock_key_process(void *param, uint16_t input)
 uint16_t unlock_password_process(void *param, uint16_t input)
 {
 	uint8_t ret = input>>8;
-	uint8_t u_id = input&0xFF;
+//	uint8_t u_id = input&0xFF;
 	Msg_Value_t ulsend_msg = {0};	
 
 	switch(ret)

@@ -27,6 +27,7 @@ void face_identify_enable(uint8_t on);
 void face_config_enable(uint8_t on);
 int32_t face_send_msg(const void *msg, uint32_t timeout);
 void face_task_create(void *pvParameters);
+void face_task_delete(void);
 
 
 #endif

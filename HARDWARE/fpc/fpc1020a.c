@@ -80,10 +80,17 @@ static BaseType_t fpc1020a_drv_send_data(uint8_t *pdata, uint8_t len, uint32_t t
 } 
 
 
-void fpc1020a_drv_init()
+void fpc1020a_drv_init(void)
 {
 	uart5_init(FPC1020A_BUADRATE, fpc1020a_protocol_parse);
 	fpc_sem = xSemaphoreCreateBinary();
+}
+
+
+void fpc1020a_drv_deinit(void)
+{
+	uart5_deinit();
+	vSemaphoreDelete(fpc_sem);
 }
 
 

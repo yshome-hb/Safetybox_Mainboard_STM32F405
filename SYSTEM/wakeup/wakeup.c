@@ -1,6 +1,14 @@
 																   
 #include "wakeup.h"	
 
+
+void soft_reset(void)
+{
+    __set_FAULTMASK(1);
+    NVIC_SystemReset();
+}
+
+
 void wakeup_stop_prepare(void)
 {
 	RCC_APB1PeriphResetCmd(0xFFFFF, ENABLE);
@@ -23,5 +31,5 @@ void wakeup_stop(void)
 
 	PWR_ClearFlag(PWR_FLAG_WU);
 	
-	PWR_EnterSTOPMode(PWR_Regulator_LowPower,PWR_STOPEntry_WFE);	 
+	PWR_EnterSTOPMode(PWR_Regulator_LowPower, PWR_STOPEntry_WFI);	 
 }

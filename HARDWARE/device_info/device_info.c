@@ -24,6 +24,13 @@ bool device_info_init()
 }
 
 
+bool device_save_reset_flag()
+{
+	dev_info.a_info.reset = 0xFFFFFFFF;
+	return device_info_flash();
+}
+
+
 void device_info_reset()
 {
 	memset(&dev_info, 0, sizeof(dev_info));

@@ -57,6 +57,14 @@ void uart1_init(u32 buad, Receive_Parse8_f receive_parse)
 }
 
 
+void uart1_deinit(void)
+{
+	USART_ITConfig(USART1, USART_IT_RXNE, DISABLE);
+	USART_Cmd(USART1, DISABLE);
+	USART_DeInit(USART1);
+}
+
+
 void uart2_init(u32 buad, Receive_Parse8_f receive_parse)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -103,6 +111,14 @@ void uart2_init(u32 buad, Receive_Parse8_f receive_parse)
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 		NVIC_Init(&NVIC_InitStructure);
 	}
+}
+
+
+void uart2_deinit(void)
+{
+	USART_ITConfig(USART2, USART_IT_RXNE, DISABLE);
+	USART_Cmd(USART2, DISABLE);
+	USART_DeInit(USART2);
 }
 
 
@@ -154,6 +170,15 @@ void uart3_init(u32 buad, Receive_Parse8_f receive_parse)
 	}
 }
 
+
+void uart3_deinit(void)
+{
+	USART_ITConfig(USART3, USART_IT_RXNE, DISABLE);
+	USART_Cmd(USART3, DISABLE);
+	USART_DeInit(USART3);
+}
+
+
 void uart4_init(u32 buad, Receive_Parse8_f receive_parse)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -201,6 +226,15 @@ void uart4_init(u32 buad, Receive_Parse8_f receive_parse)
 		NVIC_Init(&NVIC_InitStructure);	
 	}
 }
+
+
+void uart4_deinit(void)
+{
+	USART_ITConfig(UART4, USART_IT_RXNE, DISABLE);
+	USART_Cmd(UART4, DISABLE);
+	USART_DeInit(UART4);
+}
+
 
 void uart5_init(u32 buad, Receive_Parse8_f receive_parse)
 {
@@ -259,6 +293,14 @@ void uart5_init(u32 buad, Receive_Parse8_f receive_parse)
 }
 
 
+void uart5_deinit(void)
+{
+	USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
+	USART_Cmd(UART5, DISABLE);
+	USART_DeInit(UART5);
+}
+
+
 void uart6_init(u32 buad, Receive_Parse8_f receive_parse)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -305,6 +347,14 @@ void uart6_init(u32 buad, Receive_Parse8_f receive_parse)
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;	
 		NVIC_Init(&NVIC_InitStructure);	
 	}
+}
+
+
+void uart6_deinit(void)
+{
+	USART_ITConfig(USART6, USART_IT_RXNE, DISABLE);
+	USART_Cmd(USART6, DISABLE);
+	USART_DeInit(USART6);
 }
 
 

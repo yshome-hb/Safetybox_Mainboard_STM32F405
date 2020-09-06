@@ -34,8 +34,15 @@ void timer3_init(uint16_t period, Timer_Int_f timer_int)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 	
-	TIM_Cmd(TIM3, ENABLE);	
-	
+	TIM_Cmd(TIM3, ENABLE);
+}
+
+
+void timer3_deinit(void)
+{
+	TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);
+	TIM_Cmd(TIM3, DISABLE);
+	TIM_DeInit(TIM3);
 }
 
 

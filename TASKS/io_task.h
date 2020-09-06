@@ -5,5 +5,7 @@
 
 
 void io_task_create(void *pvParameters);
+void io_task_stop(void);
+
 
 #endif

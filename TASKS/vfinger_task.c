@@ -9,12 +9,12 @@
 
 #define VEIN_QUEUE_NUM    	4
 
-#define VEIN_TASK_PRIO		5
+#define VEIN_TASK_PRIO		10
 #define VEIN_STK_SIZE 		350  
 
 
-TaskHandle_t Vein_Task_Handler;
-static QueueHandle_t vein_queue;
+TaskHandle_t Vein_Task_Handler = NULL;
+static QueueHandle_t vein_queue = NULL;
 
 
 static uint8_t vein_db_init(void)
@@ -75,10 +75,11 @@ void vein_task(void *pvParameters)
 	uint16_t wait_flag = 0;
 	uint16_t err_flag = 0;
 
+	vein_queue = xQueueCreate(VEIN_QUEUE_NUM, sizeof(Msg_Value_t));	
+
 	vein_db_init();
 	vein_db_led(0);
-	vein_queue = xQueueCreate(VEIN_QUEUE_NUM, sizeof(Msg_Value_t));	
-	
+
 	while(1)
   {
 		if(xQueueReceive(vein_queue, &vrecv_msg, 1000) == pdTRUE)
@@ -195,3 +196,20 @@ void vein_task_create(void *pvParameters)
 
 }
 
+
+void vein_task_delete(void)
+{
+	if(Vein_Task_Handler == NULL)
+		return;
+
+	vTaskDelete(Vein_Task_Handler);
+	Vein_Task_Handler = NULL;
+
+	if(vein_queue != NULL)
+	{
+		vQueueDelete(vein_queue);
+		vein_queue = NULL;
+	}
+
+	xg_drv_deinit();
+}

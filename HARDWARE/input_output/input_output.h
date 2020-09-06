@@ -33,6 +33,7 @@ enum io_output_e
 
 
 void io_input_init(void);
+void io_input_deinit(void);
 uint8_t io_input_update(uint8_t idx);
 uint8_t io_input_prevalue(uint8_t idx);
 uint8_t io_input_getfilter(uint8_t idx);

@@ -101,8 +101,9 @@ static void main_cnt_timeout(void *xTimer)
 uint16_t main_int_process(void *param, uint16_t input)
 {
 	uint8_t int_cmd = input>>8;
-	uint8_t int_val = input&0xFF;
+//	uint8_t int_val = input&0xFF;
 	Msg_Value_t m_int_msg = {0};
+	uint16_t warn_mode = 0;
 	
 	switch(int_cmd)
 	{
@@ -113,7 +114,7 @@ uint16_t main_int_process(void *param, uint16_t input)
 			break;
 
 		case INPUT_SHAKE:
-			uint16_t warn_mode = device_get_warnmode();
+			warn_mode = device_get_warnmode();
 			if(warn_mode & WARN_BEEP)
 				rtc_cnt_enable(1, RTC_FLAG_BEEP);
 			break;
@@ -414,7 +415,7 @@ uint16_t main_rtc_process(void *param, uint16_t input)
 uint16_t main_wifi_process(void *param, uint16_t input)
 {	
 	uint8_t cmd = input>>8;
-	uint8_t val = input&0xFF;
+//	uint8_t val = input&0xFF;
 
 	if(cmd == WIFI_RETURN_SUCCESS)
 	{
@@ -429,7 +430,7 @@ uint16_t main_wifi_process(void *param, uint16_t input)
 uint16_t main_nbiot_process(void *param, uint16_t input)
 {	
 	uint8_t cmd = input>>8;
-	uint8_t val = input&0xFF;
+//	uint8_t val = input&0xFF;
 
 	if(cmd == NBIOT_RETURN_SUCCESS)
 	{

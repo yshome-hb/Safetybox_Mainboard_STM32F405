@@ -16,6 +16,7 @@
 
 void bc35_buffer_flush(void);
 void bc35_init(void);
+void bc35_deinit(void);
 void bc35_send_null(void);
 bool bc35_setup(uint32_t timeout);
 bool bc35_testAT(uint32_t timeout);

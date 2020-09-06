@@ -116,11 +116,19 @@ static void xg_drv_send_data(uint8_t cmd, uint8_t *pdata, uint8_t len)
 } 
 
 
-void xg_drv_init()
+void xg_drv_init(void)
 {
 	uart4_init(XG_BUADRATE, xg_protocol_parse);
 	xg_sem = xSemaphoreCreateBinary();
 }
+
+
+void xg_drv_deinit(void)
+{
+	uart4_deinit();
+	vSemaphoreDelete(xg_sem);
+}
+
 
 /*
 功能:复位重启设备
