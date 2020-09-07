@@ -265,21 +265,21 @@ uint8_t xg_get_num(uint16_t* p_num, uint16_t* p_max, uint32_t timeout)
 
 uint8_t xg_clear_all(uint32_t timeout)
 {
-	uint16_t user_num = 0;
-	uint16_t user_max = 0;	
-	uint32_t clear_time = 0;
+	// uint16_t user_num = 0;
+	// uint16_t user_max = 0;	
+	// uint32_t clear_time = 0;
 	BaseType_t err = pdFALSE;	
 
 	//先获取登记有多少用户,估算一下大概需要多长的清除时间
-	err = xg_get_num(&user_num, &user_max, timeout);
-	if(err == XG_ERR_NAK)
-	{
-		return XG_ERR_NAK;
-	}	
+	// err = xg_get_num(&user_num, &user_max, timeout);
+	// if(err == XG_ERR_NAK)
+	// {
+	// 	return XG_ERR_NAK;
+	// }	
 	
-	clear_time = 1000 + user_num*300;
-	if(timeout < clear_time)
-		timeout = clear_time;
+	// clear_time = 1000 + user_num*300;
+	// if(timeout < clear_time)
+	// 	timeout = clear_time;
 	
 	xg_drv_send_data(XG_CMD_CLEAR_ALL_ENROLL, NULL, 0);	
 	err = xSemaphoreTake(xg_sem, timeout);

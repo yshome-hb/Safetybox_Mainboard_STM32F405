@@ -92,7 +92,7 @@ static void main_cnt_timeout(void *xTimer)
 {
 	Msg_Value_t mctsend_msg = {0};
 
-	mctsend_msg.cmd = MSG_CMD_PUB;
+	mctsend_msg.cmd = MSG_CMD_DEFAULT;
 
 	acitivy_send_msg(&mctsend_msg, 1000);
 }

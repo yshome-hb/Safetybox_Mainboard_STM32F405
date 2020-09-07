@@ -41,14 +41,14 @@ void io_input_init(void)
 	
 	input_filter[INPUT_LOCK].gpiox = GPIOA;
 	input_filter[INPUT_LOCK].pin = GPIO_Pin_0;
-	input_filter[INPUT_LOCK].type = GPIO_PuPd_NOPULL;
+	input_filter[INPUT_LOCK].type = GPIO_PuPd_UP;
 	input_filter[INPUT_LOCK].filter = 0xFF;
 	input_filter[INPUT_LOCK].value = 1;	
 	input_filter[INPUT_LOCK].prevalue = 0x00;	
 
 	input_filter[INPUT_CONFIG].gpiox = GPIOC;
 	input_filter[INPUT_CONFIG].pin = GPIO_Pin_3;
-	input_filter[INPUT_CONFIG].type = GPIO_PuPd_NOPULL;
+	input_filter[INPUT_CONFIG].type = GPIO_PuPd_UP;
 	input_filter[INPUT_CONFIG].filter = 0xFF;
 	input_filter[INPUT_CONFIG].value = 1;		
 	input_filter[INPUT_CONFIG].prevalue = 0x00;	

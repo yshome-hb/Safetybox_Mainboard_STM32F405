@@ -19,7 +19,7 @@ uint16_t manage1_setup(uint16_t input)
 	task_identify_enable(0);
 	fpc_identify_enable(0);	
 	face_identify_enable(0);
-	rtc_timeout_stop();
+	//rtc_timeout_stop();
 
 	return 0;
 }

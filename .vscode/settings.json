@@ -6,6 +6,8 @@
         "type_traits": "c",
         "utility": "c",
         "xmemory0": "c",
-        "xutility": "c"
+        "xutility": "c",
+        "device_info.h": "c",
+        "device_config.h": "c"
     }
 }

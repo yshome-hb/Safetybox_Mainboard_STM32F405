@@ -20,6 +20,7 @@ enum Msg_Cmd_e
   MSG_CMD_PUB,
   MSG_CMD_NEXT,
   MSG_CMD_PRE,
+  MSG_CMD_DEFAULT,
 };
 
 

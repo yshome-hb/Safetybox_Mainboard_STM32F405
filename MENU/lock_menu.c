@@ -59,7 +59,7 @@ uint16_t lock_setup(uint16_t input)
 	lcd_fb_rectangle(27, 13, 164, 51, 1, 0);
 
 	lcd_fb_puthzs(30, 16, "ÃÜÂëÊä´íÌ«¶à", 0, 1);
-	lcd_fb_puthzs(30, 32, "ÇëµÈ´ı3·ÖÖÓ", 0, 1);
+	lcd_fb_puthzs(30, 32, "ÇëµÈ´ı1·ÖÖÓ", 0, 1);
 
 	task_identify_enable(0);
 	fpc_identify_enable(0);

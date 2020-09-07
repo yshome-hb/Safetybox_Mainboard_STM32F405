@@ -30,7 +30,7 @@ TaskHandle_t Acitivity_Task_Handler = NULL;
 static QueueHandle_t activity_queue = NULL;
 
 static struct Menu_Item_t *acvitiy_item = NULL;
-
+static struct Menu_Item_t *default_item = NULL;
 
 uint8_t activity_debug_parse(uint8_t _input)
 {
@@ -198,7 +198,15 @@ void acitivy_task(void *pvParameters)
 							ret = acvitiy_item->setup(activity_msg.value.s_val);
 						}							 
 						break;
-				 
+
+					case MSG_CMD_DEFAULT:
+						if(default_item != NULL)
+						{
+							acvitiy_item = default_item;
+							ret = acvitiy_item->setup(activity_msg.value.s_val);
+						}							 
+						break;			
+
 					default:
 						
 						break;
@@ -229,6 +237,7 @@ void acitivy_task(void *pvParameters)
 void activity_task_create(struct Menu_Item_t *menu, void *activity_hook)
 {
 	acvitiy_item = menu;
+	default_item = menu;
 
     xTaskCreate((TaskFunction_t )acitivy_task,     
                 (const char*    )"activity_task",   
