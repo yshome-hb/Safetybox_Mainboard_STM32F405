@@ -92,21 +92,58 @@ uint8_t hw_iic1_readbyte(uint8_t saddr, uint8_t reg)
 
 uint8_t hw_iic1_readbytes(uint8_t saddr, uint8_t reg, uint8_t* buf, uint8_t num)
 {
-	I2C_AcknowledgeConfig(I2C1, ENABLE);
+	int i = 0;
+  I2C_AcknowledgeConfig(I2C1, ENABLE);
 	I2C_GenerateSTART(I2C1, ENABLE);/***start *******/
 
-	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));/* Test on EV5 and clear it */
+	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT))/* Test on EV5 and clear it */
+  {
+    if(i++ > 10)
+      return 1;
+    vTaskDelay(10);
+  }
+  
 	I2C_Send7bitAddress(I2C1, saddr<<1, I2C_Direction_Transmitter); /***device addr**/
 
-  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)); /* Test on EV6 and clear it */
+  i = 0;
+  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)) /* Test on EV6 and clear it */
+  {
+    if(i++ > 10)
+      return 1;
+    vTaskDelay(10);
+  }
+
   I2C_SendData(I2C1, reg);   /* send reg addr */
-  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED)); /* Test on EV8 and clear it */
+  
+  i = 0;
+  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) /* Test on EV8 and clear it */
+  {
+    if(i++ > 10)
+      return 1;
+    vTaskDelay(10);
+  }
+
 
   I2C_GenerateSTART(I2C1, ENABLE); /*restart  */
-  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));  /* Test on EV5 and clear it */
+ 
+  i = 0;
+  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT))  /* Test on EV5 and clear it */
+  {
+    if(i++ > 10)
+      return 1;
+    vTaskDelay(10);
+  }
 
   I2C_Send7bitAddress(I2C1, saddr<<1, I2C_Direction_Receiver);  /* re send device addr */
-  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED)) ; /* Test on EV6 and clear it */
+
+  i = 0;
+  while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED))  /* Test on EV6 and clear it */
+  {
+    if(i++ > 10)
+      return 1;
+    vTaskDelay(10);
+  }
+
   /* While there is data to be read */
   while(num)
   {

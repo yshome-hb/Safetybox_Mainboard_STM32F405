@@ -82,7 +82,7 @@ void hw_system_init()
 	adc1_init();
 	rtc_init();
 
-	uart1_init(115200, activity_debug_parse);
+	uart1_init(115200, NULL);
 	
 	rtc_init_wakeup(LOCK_TIMEOUT, rtc_timeout);	
 }
@@ -132,6 +132,7 @@ int main(void)
               	(void*          )NULL,                  //传递给任务函数的参数
               	(UBaseType_t    )START_TASK_PRIO,       //任务优先级
               	(TaskHandle_t*  )&StartTask_Handler);   //任务句柄              
-  	vTaskStartScheduler();          //开启任务调度
+  	wwatchdog_init(0x7e);	
+	vTaskStartScheduler();          //开启任务调度
 }
 

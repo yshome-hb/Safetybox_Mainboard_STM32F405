@@ -18,7 +18,7 @@ static inline float convertSrhToHumidity(uint16_t srh)
 
 static uint16_t sht2x_readraw(uint8_t _reg) 
 {
-    uint8_t buf[3];
+    static uint8_t buf[3];
     hw_iic1_readbytes(SHT2X_ADDR_DEFAULT, _reg, buf, 3);  
     return ((((uint16_t)buf[0])<<8) | buf[1]);
 }

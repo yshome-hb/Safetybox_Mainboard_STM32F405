@@ -170,6 +170,8 @@ void rtc_task_create(void *pvParameters)
 
 void rtc_timeout_start(uint32_t tick, timeout_cb_f timeout_cb)
 {
+	if(RTC_Cnt_Timeout_Handle != NULL)
+		return;
 
   	RTC_Cnt_Timeout_Handle = xTimerCreate((const char*)"rtc_cnt_timeout",
 									(TickType_t	 )tick,

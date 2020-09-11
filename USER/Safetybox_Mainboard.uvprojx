@@ -517,6 +517,11 @@
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\wwdg\wwdg.c</FilePath>
             </File>
+            <File>
+              <FileName>iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\iic\iic.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -601,6 +606,11 @@
               <FileName>stm32f4xx_wwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\src\stm32f4xx_wwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_iwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLIB\src\stm32f4xx_iwdg.c</FilePath>
             </File>
           </Files>
         </Group>

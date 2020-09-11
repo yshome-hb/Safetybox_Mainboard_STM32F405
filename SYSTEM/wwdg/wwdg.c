@@ -13,14 +13,14 @@ void wwatchdog_init(uint8_t window)
 	WWDG_SetWindowValue(window);
 	WWDG_Enable(WWDG_CNT_MASK);
 	
-	NVIC_InitStructure.NVIC_IRQChannel = WWDG_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 6;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
+	// NVIC_InitStructure.NVIC_IRQChannel = WWDG_IRQn;
+	// NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 6;
+	// NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	// NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	// NVIC_Init(&NVIC_InitStructure);
 	
-	WWDG_ClearFlag();
-    WWDG_EnableIT();
+	// WWDG_ClearFlag();
+    // WWDG_EnableIT();
 }
 
 

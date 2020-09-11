@@ -71,8 +71,11 @@ static inline uint16_t activity_protocol_parse(uint16_t _input)
 void acitivy_send_msg_isr(const void *msg)
 {
 	BaseType_t xHigherPriorityTaskWoken;
-	xQueueSendFromISR(activity_queue, msg, &xHigherPriorityTaskWoken);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	if(activity_queue != NULL)
+	{
+		xQueueSendFromISR(activity_queue, msg, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	}
 }
 
 
@@ -109,7 +112,7 @@ void acitivy_task(void *pvParameters)
 						break;
 					 
 					case MSG_CMD_KEY:
-						//printf("key: %x\r\n", activity_msg.value.s_val);
+						printf("key: %x\r\n", activity_msg.value.s_val);
 					
 						if(acvitiy_item->key_process != NULL)
 						{
