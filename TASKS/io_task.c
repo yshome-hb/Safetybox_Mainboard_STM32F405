@@ -56,8 +56,8 @@ static void key_int_loop(TimerHandle_t xTimer)
 
 	if(io_input_prevalue(INPUT_LOCK) == 0x00)
 	{
-		reset_cnt++;
-		if(reset_cnt > 20)
+		reset_cnt += 4;
+		if(reset_cnt > 10)
 		{
 			rtc_cnt_enable(1, RTC_FLAG_FACE);
 			syscsend_id.type = IDENTIFY_TYPE_RESET_USER;
@@ -77,9 +77,9 @@ static void key_int_loop(TimerHandle_t xTimer)
 			soft_reset();
 		}
 	}
-	else
+	else if(reset_cnt > 0)
 	{
-		reset_cnt = 0;
+		reset_cnt--;
 	}
 	
 

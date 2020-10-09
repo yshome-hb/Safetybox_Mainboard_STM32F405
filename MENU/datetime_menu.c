@@ -133,8 +133,6 @@ uint16_t datetime_setup(uint16_t input)
 	rtc_get_time(datetime+3, datetime+4, datetime+5);	
 	rtc_get_date(datetime, datetime+1, datetime+2);
 
-	datetime[0] -= 1;
-
 	lcd_fb_puts(46, 23, ASCII_8X16, "20", 0, 1);
 	lcd_fb_puthzs(78, 23, "Äê", 0, 1);
 	lcd_fb_puthzs(110, 23, "ÔÂ", 0, 1);

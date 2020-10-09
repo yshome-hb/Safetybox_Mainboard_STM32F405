@@ -55,7 +55,8 @@ typedef struct
   uint16_t warn_mode;
   uint16_t network_type;
   uint32_t network_tick;
-  uint32_t reverse1;
+  uint16_t unlock_time;
+  uint16_t reverse1;
   uint32_t reverse2;
   uint32_t num;
 }Admin_Info_t;
@@ -97,6 +98,7 @@ void device_set_networktype(uint16_t type);
 uint16_t device_get_networktype(void);
 void device_set_warnmode(uint16_t mode);
 uint16_t device_get_warnmode(void);
+uint16_t device_get_unlocktime(void);
 
 
 #endif

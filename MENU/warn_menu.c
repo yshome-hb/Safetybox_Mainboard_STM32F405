@@ -10,19 +10,19 @@
 static void warn_show_mode(uint16_t mode)
 {
 	lcd_fb_rectangle(73, 29, 77, 33, (mode & WARN_BEEP), 1);
-	lcd_fb_rectangle(73, 50, 77, 54, (mode & WARN_VOICE), 1);
-	lcd_fb_rectangle(169, 29, 173, 33, (mode & WARN_PUSH), 1);	
+	lcd_fb_rectangle(73, 50, 77, 54, (mode & WARN_PUSH), 1);
+	//lcd_fb_rectangle(169, 29, 173, 33, (mode & WARN_VOICE), 1);	
 }
 
 
 uint16_t warn_setup(uint16_t input)
 {
-	common_setup("±¨¾¯²ßÂÔ", "À®°È", "ÓïÒô", "ÍÆËÍ", NULL);
+	common_setup("±¨¾¯²ßÂÔ", "À®°È", "ÍÆËÍ", NULL, NULL);
 	lcd_fb_puthzs(20, 2, "1/1", 0, 1);
 	
 	lcd_fb_rectangle(72, 28, 78, 34, 1, 0);
 	lcd_fb_rectangle(72, 49, 78, 55, 1, 0);
-	lcd_fb_rectangle(168, 28, 174, 34, 1, 0);
+	//lcd_fb_rectangle(168, 28, 174, 34, 1, 0);
 
 	warn_show_mode(device_get_warnmode());
 
@@ -69,7 +69,7 @@ uint16_t warn_key_process(void *param, uint16_t input)
 
 		warn_index = 0;
 	}	
-	else if(key_val >= '1' && key_val <= '3')
+	else if(key_val >= '1' && key_val <= '2')
 	{
 		warn_index = key_val - '1';
 		common_show_rectangle(warn_index);

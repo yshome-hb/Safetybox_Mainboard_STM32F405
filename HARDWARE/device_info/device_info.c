@@ -43,6 +43,7 @@ void device_info_reset()
 	dev_info.a_info.warn_mode = WARN_BEEP;
 	dev_info.a_info.network_type = OFF_LINE;
 	dev_info.a_info.network_tick = 0;
+	dev_info.a_info.unlock_time = 10;
 	strncpy(dev_info.a_info.adminname, DEFAULT_ADMIN_NAME, 12);
 	strncpy(dev_info.a_info.password, DEFAULT_ADMIN_PASSWORD, 12);
 }
@@ -167,5 +168,11 @@ void device_set_warnmode(uint16_t mode)
 uint16_t device_get_warnmode(void)
 {
 	return dev_info.a_info.warn_mode;
+}
+
+
+uint16_t device_get_unlocktime(void)
+{
+	return dev_info.a_info.unlock_time;
 }
 

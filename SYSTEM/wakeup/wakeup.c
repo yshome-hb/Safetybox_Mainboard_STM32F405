@@ -13,6 +13,8 @@ void wakeup_stop_prepare(void)
 {
 	ADC_Cmd(ADC1, DISABLE);
 
+	WWDG_DeInit();
+
     SysTick->CTRL = 0x00;//关闭定时器
     SysTick->VAL = 0x00;//清空val,清空定时器
 

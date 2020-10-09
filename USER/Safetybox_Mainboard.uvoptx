@@ -159,7 +159,7 @@
           <Type>0</Type>
           <LineNumber>125</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134240028</Address>
+          <Address>134240048</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -1375,7 +1375,7 @@
 
   <Group>
     <GroupName>CJSON</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1383,7 +1383,7 @@
       <GroupNumber>12</GroupNumber>
       <FileNumber>82</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\CJSON\cJSON.c</PathWithFileName>

@@ -31,7 +31,21 @@ uint16_t systemconfig_key_process(void *param, uint16_t input)
 	if(key_cmd != 0xA5)
 		return 0;
 
-	if(key_val == '\n')
+	if(key_val == 'u')
+	{	
+		if(sysconfig_index == 2)
+		{
+			
+		}
+	}
+	else if(key_val == 'd')
+	{
+		if(sysconfig_index == 2)
+		{
+			
+		}	
+	}
+	else if(key_val == '\n')
 	{
 		if(sysconfig_flag)
 		{
@@ -61,6 +75,11 @@ uint16_t systemconfig_key_process(void *param, uint16_t input)
 				common_show_popup("数据已清除!");
 
 			}
+			else if(sysconfig_index == 1)
+			{
+				sysconfig_flag = 2;
+				common_show_popup("开锁延时:");
+			}
 		}
 	}
 	else if(key_val == '\b')
@@ -69,7 +88,7 @@ uint16_t systemconfig_key_process(void *param, uint16_t input)
 		syscmsend_msg.cmd = MSG_CMD_PUB;				
 		acitivy_send_msg(&syscmsend_msg, 1000);
 	}	
-	else if(key_val >= '1' && key_val <= '4')
+	else if(key_val >= '1' && key_val <= '2')
 	{
 		sysconfig_index = key_val - '1';
 		common_show_rectangle(sysconfig_index);

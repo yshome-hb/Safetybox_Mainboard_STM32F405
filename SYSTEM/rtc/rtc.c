@@ -119,6 +119,7 @@ uint8_t rtc_set_date(uint8_t year, uint8_t month, uint8_t date)
 	RTC_DateTypeInitStructure.RTC_Date = date;
 	RTC_DateTypeInitStructure.RTC_Month = month;
 	RTC_DateTypeInitStructure.RTC_Year = year;
+	RTC_DateTypeInitStructure.RTC_WeekDay = 0;
 	return RTC_SetDate(RTC_Format_BIN, &RTC_DateTypeInitStructure);
 }
 

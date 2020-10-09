@@ -42,7 +42,7 @@ uint16_t sleep_setup(uint16_t input)
   	io_output_set(OUTPUT_POWER_3V, 0);	//关闭系统3V电源
 
 	wakeup_stop_prepare();	//关闭系统外设
-	//exti1_init(soft_reset);
+	exti1_init(soft_reset);
 	exti15_10_init(soft_reset);	//设置按键信号为唤醒源
 	wakeup_stop();	//系统休眠
 	return 0;
@@ -132,7 +132,7 @@ int main(void)
               	(void*          )NULL,                  //传递给任务函数的参数
               	(UBaseType_t    )START_TASK_PRIO,       //任务优先级
               	(TaskHandle_t*  )&StartTask_Handler);   //任务句柄              
-  	wwatchdog_init(0x7e);	
+  	//wwatchdog_init(0x7e);	
 	vTaskStartScheduler();          //开启任务调度
 }
 

@@ -189,7 +189,7 @@ void rtc_timeout_stop()
 		return;
 	
 	if(xTimerIsTimerActive(RTC_Cnt_Timeout_Handle) != pdFALSE)	
-		xTimerStop(RTC_Cnt_Timeout_Handle, 100);
+		xTimerStop(RTC_Cnt_Timeout_Handle, 0);
 	
 	if(RTC_Cnt_Timeout_Handle != NULL)
 		xTimerDelete(RTC_Cnt_Timeout_Handle, 100);
